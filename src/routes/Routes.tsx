@@ -1,14 +1,18 @@
-import React from 'react';
+import { Navbar } from "components/Navbar";
+import { SignUp } from "pages/auth/SignUp";
+import { BrowserRouter as Router } from "react-router-dom";
+import React from "react";
+import "App.scss";
 
-interface RoutesProps {
-
-}
+interface RoutesProps {}
 
 export const Routes: React.FC<RoutesProps> = () => {
   return (
-   <div>
-<h1>routes</h1>
-       <h2>test</h2>
-   </div>
+    <Router>
+      <Navbar />
+      <div className="content-wrapper">
+        <SignUp />
+      </div>
+    </Router>
   );
- }
+};
