@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 400px;
+
+  &-sign-in {
+    padding-top: 200px;
+  }
+
+  &-sign-up {
+    padding-top: 100px;
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+
+  max-width: 400px;
+  width: 80%;
+
+  &-sign-in {
+    min-height: 300px;
+  }
+
+  &-sign-up {
+    min-height: 400px;
+  }
+}

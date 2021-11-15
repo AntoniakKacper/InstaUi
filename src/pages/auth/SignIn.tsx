@@ -6,6 +6,7 @@ import { signInData } from "models/Authentication";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signInSchema } from "./ValidationSchema";
+import "App.scss";
 
 interface SignInProps {}
 
@@ -16,10 +17,13 @@ export const SignIn: React.FC<SignInProps> = () => {
 
   const onSubmit = (data: signInData) => console.log(data);
   return (
-    <div>
+    <div className="wrapper wrapper-sign-in">
       <h1>SignIn</h1>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className="form form-sign-in"
+        >
           <TextInput
             label="Email"
             name="email"

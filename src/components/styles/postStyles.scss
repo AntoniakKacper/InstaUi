@@ -1,0 +1,92 @@
+.post-container {
+  max-width: 600px;
+  height: 100%;
+  min-width: 320px;
+  background-color: white;
+  border: 1px solid #cecece;
+  margin-bottom: 40px;
+}
+
+.post-nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 15px 15px 15px 15px;
+  align-items: center;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > p {
+      margin-left: 15px;
+    }
+  }
+}
+
+.post-img {
+  max-height: 700px;
+  object-fit: cover;
+}
+
+.post-info {
+  padding: 15px 15px 15px 15px;
+}
+
+.post-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-btn-container {
+  display: flex;
+  width: 100px;
+  justify-content: space-between;
+}
+
+.post-icon {
+  font-size: 24px;
+  color: #555555;
+  &:hover {
+    cursor: pointer;
+    color: grey;
+  }
+}
+
+.post-likes {
+  font-size: 14px;
+  color: #555555;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.post-description-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-username {
+  font-weight: 600;
+  margin-right: 5px;
+  color: #555555;
+  font-size: 14px;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.post-desc {
+  margin-left: 10px;
+}
+
+.post-comments {
+  margin-top: 10px;
+}
+
+.post-creation-date {
+  margin-top: 10px;
+  color: #808080;
+}
