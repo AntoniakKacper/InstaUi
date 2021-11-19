@@ -4,14 +4,39 @@
   justify-content: space-around;
   align-items: center;
   min-height: 400px;
+  padding-top: 50px;
+}
 
-  &-sign-in {
-    padding-top: 200px;
+.auth__header {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 80%;
+  padding-bottom: 25px;
+  max-width: 400px;
+
+  & > p {
+    padding-top: 20px;
+    color: #989898;
+    font-weight: 500;
+  }
+}
+
+.social-auth-buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  max-width: 400px;
+  padding-bottom: 20px;
+
+
+  & > div {
+    width: 100%;
   }
 
-  &-sign-up {
-    padding-top: 100px;
-  }
 }
 
 .form {
@@ -23,10 +48,28 @@
   width: 80%;
 
   &-sign-in {
-    min-height: 300px;
+    min-height: 250px;
   }
 
   &-sign-up {
     min-height: 400px;
   }
+}
+
+.auth__footer {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  padding-top: 10px;
+  & > p {
+    font-weight: 500;
+    color: #989898;
+    padding-right: 5px;
+  }
+
+  & > a {
+    font-weight: bold;
+    color: #1976d2;
+  }
+
 }

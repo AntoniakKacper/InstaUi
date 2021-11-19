@@ -1,5 +1,5 @@
 import { PostState } from "models/PostModel";
-import { PostActionsTypes, SET_POSTS } from "store/types/types";
+import { PostActionsTypes, SET_POSTS} from "store/types/types";
 
 
 const initialState: PostState = {
@@ -19,3 +19,4 @@ export default (state = initialState, action: PostActionsTypes) => {
         
     }
  }
+

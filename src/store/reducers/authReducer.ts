@@ -1,18 +1,17 @@
-import { AuthState } from "models/Authentication";
-import { AuthActionsTypes, SET_USER, SIGN_OUT } from "store/types/types";
+import {AuthState} from "models/Authentication";
+import {AuthActionsTypes, SIGN_IN_SOCIAL, SIGN_OUT, SIGN_UP} from "store/types/types";
 
 
 const initialState: AuthState = {
     user: null,
     authenticated: false,
-    token: localStorage.getItem("token")
+    token: '',
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action: AuthActionsTypes) => {
     switch(action.type){
-        case SET_USER:
-            localStorage.setItem("token", action.payload.token);
+        case SIGN_UP:
             return {
                 ...state,
                 user: action.payload.user,
@@ -20,12 +19,16 @@ export default (state = initialState, action: AuthActionsTypes) => {
                 authenticated: true
             }
             case SIGN_OUT:
-                localStorage.removeItem("token");
                 return {
                     ...state,
                     token: '',
-                    authenticated: false
+                    authenticated: false,
+                    user: null
                 }
+                case SIGN_IN_SOCIAL:
+                    return {
+                        ...state
+                    }
         default:
             return state;
         

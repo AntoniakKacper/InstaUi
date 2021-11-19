@@ -14,5 +14,4 @@ author: User;
 
 export interface PostState {
     posts: null | PostModel[],
-    //loading: boolean
 }

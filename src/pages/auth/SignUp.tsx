@@ -7,25 +7,26 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signUpSchema } from "./ValidationSchema";
 import "App.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser, signOut } from "store/actions/authActions";
-import { RootState } from "store";
+import { useDispatch } from "react-redux";
+import { signUp } from "store/actions/authActions";
+import {Link} from "react-router-dom";
 
 interface SignUpProps {}
 
 export const SignUp: React.FC<SignUpProps> = () => {
-  const { token } = useSelector((state: RootState) => state.auth);
   const action = useDispatch();
   const methods = useForm<signUpData>({
     resolver: yupResolver(signUpSchema),
   });
 
   const onSubmit = (data: signUpData) => {
-    action(setUser(data));
+    action(signUp(data));
   };
   return (
-    <div className="wrapper wrapper-sign-in">
-      <h1>SignUp</h1>
+    <div className="wrapper">
+      <div className="auth__header">
+        <h1>Sign up</h1>
+      </div>
 
       <FormProvider {...methods}>
         <form
@@ -57,10 +58,11 @@ export const SignUp: React.FC<SignUpProps> = () => {
           </Button>
         </form>
       </FormProvider>
-      <Button onClick={() => token && action(signOut(token))}>
-        Wyloguj sie
-      </Button>
-      <p>Zarejestruj się</p>
+
+      <span className="auth__footer">
+        <p>Already have an account? </p>
+        <Link to="/signin" className="sign-in__footer__link">Sign in</Link>
+      </span>
     </div>
   );
 };

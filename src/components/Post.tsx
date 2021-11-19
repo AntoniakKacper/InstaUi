@@ -62,9 +62,9 @@ export const Post: React.FC<PostProps> = ({
             </div>
             <i className="far fa-bookmark post-icon"></i>
           </div>
-          <strong>
-            <p className="post-likes">Liczba polubień: 2137</p>
-          </strong>
+
+          <p className="post-likes">Liczba polubień: 2137</p>
+
           <span className="post-username">{username}</span>
           {description}
           <div className="post-comments">

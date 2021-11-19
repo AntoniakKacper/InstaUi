@@ -1,4 +1,4 @@
-import { PostActionsTypes, SET_POSTS } from "store/types/types";
+import {PostActionsTypes, SET_POSTS} from "store/types/types";
 import { RootState } from "store";
 import { ThunkAction } from "redux-thunk";
 import axios from "axios";
@@ -18,6 +18,7 @@ export const setPosts = (): ThunkAction<void, RootState, null, PostActionsTypes>
               }).then((res)  => {
                   const response = res.data
                   if(response.data){
+                      console.log("Halo")
                       dispatch({
                           type: SET_POSTS,
                           payload: response.data as PostModel[]

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { setPosts } from "store/actions/postAction";
 import CircularProgress from "@mui/material/CircularProgress";
+import { signOut } from "store/actions/authActions";
+import Button from "@mui/material/Button";
 
 interface HomeProps {}
 
@@ -21,12 +23,13 @@ export const Home: React.FC<HomeProps> = ({}) => {
   if (loading) {
     return (
       <div className="home-wrapper">
-        <CircularProgress size={100} />
+        <CircularProgress size={40} />
       </div>
     );
   }
   return (
     <div className="home-wrapper">
+      <Button onClick={() => action(signOut())}>Wyloguj sie</Button>
       {posts &&
         posts.map((post: PostModel) => (
           <Post

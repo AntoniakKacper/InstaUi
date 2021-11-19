@@ -20,17 +20,15 @@ const rootReducer = combineReducers({
     auth: authReducer
 });
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = createStore(
-    rootReducer,
+    persistedReducer,
     composeWithDevTools(applyMiddleware(thunk))
 )
 
 const persistor = persistStore(store);
 
+export { store, persistor }
+
 export type RootState = ReturnType<typeof rootReducer>;
-
-const storeObject = { store, persistor }
-
-export const persReducer = persistReducer(persistConfig, rootReducer);
-
-export default storeObject;
