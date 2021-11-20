@@ -1,21 +1,20 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import GoogleIcon from "@mui/icons-material/Google";
+import {yupResolver} from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import CircularProgress from "@mui/material/CircularProgress";
 import "App.scss";
-import { PasswordInput } from "components/PasswordInput";
-import { TextInput } from "components/TextInput";
-import { signInData } from "models/Authentication";
+import {PasswordInput} from "components/PasswordInput";
+import {TextInput} from "components/TextInput";
+import {signInData} from "models/Authentication";
 import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "store";
-import { signIn, signInSocial } from "store/actions/authActions";
-import { signInSchema } from "./ValidationSchema";
+import {FormProvider, useForm} from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "store";
+import {signIn, signInSocial} from "store/actions/authActions";
+import {signInSchema} from "./ValidationSchema";
 import {Link} from "react-router-dom";
 import GoogleLogin from 'react-google-login';
+// @ts-ignore
+import LoginGithub from 'react-login-github';
 
 interface SignInProps {}
 
@@ -33,9 +32,14 @@ export const SignIn: React.FC<SignInProps> = () => {
   };
 
   const responseGoogle = (response: any) => {
-    console.log(response.accessToken);
     action(signInSocial(response.accessToken, "google"));
   }
+
+  const onSuccess = async (response: any) => {
+    action(signInSocial(response.code, "github"));
+  }
+
+  const onFailure = (response: any) => console.error(response);
 
   return (
     <div className="wrapper">
@@ -43,23 +47,30 @@ export const SignIn: React.FC<SignInProps> = () => {
         <h1>Log in</h1>
         <p>Sign up with one of following options.</p>
       </div>
-      <div className="social-auth-buttons">
+      <div className="social-auth-container">
         <GoogleLogin
+            className="social-auth-container-button"
             clientId="943857804982-okau4ko9qn2harjiv75if0mt57o99j3e.apps.googleusercontent.com"
-            buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
+            buttonText="Google"
+            tag='button'
+            render={renderProps => (
+                <button className="social-auth-container-button social-auth-container-button-google"
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}>
+                  <i className="fab fa-google  social-auth-container-button-icon" /></button>
+            )}
+            icon={false}
+
             cookiePolicy={'single_host_origin'}
         />
-        {/*<ButtonGroup disableElevation variant="outlined" fullWidth={true}>*/}
-
-        {/*  <Button onClick={() => action(signInSocial("google"))}>*/}
-        {/*    <GoogleIcon />*/}
-        {/*  </Button>*/}
-        {/*  <Button>*/}
-        {/*    <GitHubIcon />*/}
-        {/*  </Button>*/}
-        {/*</ButtonGroup>*/}
+        <LoginGithub clientId="cef6e2a53464bfd04904"
+                     className="social-auth-container-button social-auth-container-button-github"
+                     scope={'user:email'}
+                     onSuccess={onSuccess}
+                     buttonText={<i className="fab fa-github social-auth-container-button-icon"/>}
+                     onFailure={onFailure}/>
       </div>
       <FormProvider {...methods}>
         <form
@@ -86,10 +97,10 @@ export const SignIn: React.FC<SignInProps> = () => {
 
 
         </form>
-        <span className="auth__footer">
+        <div className="auth__footer">
         <p>Don't have an account? </p>
         <Link to="/signup">Sign up</Link>
-      </span>
+      </div>
       </FormProvider>
     </div>
   );

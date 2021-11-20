@@ -17,7 +17,7 @@ export const Post: React.FC<PostProps> = ({
   avatarUrl,
   username,
   imageUrl,
-  description,
+  description
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

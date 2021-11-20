@@ -23,20 +23,51 @@
   }
 }
 
-.social-auth-buttons{
+.social-auth-container{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 80%;
   max-width: 400px;
   padding-bottom: 20px;
+  min-width: 255px;
+
+  &-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 48%;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    box-shadow: 0px 2px 13px -1px rgba(66, 68, 90, 1);
 
 
-  & > div {
-    width: 100%;
+    &-github {
+      background-color: #30373a;
+      color: white;
+      font-weight: 500;
+    }
+
+    &-google {
+      background-color: #4285F4;
+      color: white;
+
+
+    }
+
+    &-icon {
+      font-size: 26px;
+    }
+
+
+
+    &:hover{
+      cursor: pointer;
+    }
   }
-
 }
 
 .form {

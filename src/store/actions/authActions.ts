@@ -1,9 +1,9 @@
 import axios from "utils/axiosInstance";
-import { signInData, signUpData } from "models/Authentication";
-import { ThunkAction } from "redux-thunk";
-import { RootState } from "store";
-import {AuthActionsTypes, SET_LOADING, SIGN_OUT, SIGN_UP } from "store/types/types";
-import { setLoading } from "./stateActions";
+import {signInData, signUpData} from "models/Authentication";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "store";
+import {AuthActionsTypes, SIGN_OUT, SIGN_UP} from "store/types/types";
+import {setLoading} from "./stateActions";
 
 
 export const signUp = (data: signUpData): ThunkAction<void, RootState, null, AuthActionsTypes> => {
@@ -99,7 +99,6 @@ export const signInSocial = (passedToken: string, social: "google" | "github"): 
                     })
                 console.log(response.data.data);
             })
-            
         }
         catch (error: any) {
             console.log(error);

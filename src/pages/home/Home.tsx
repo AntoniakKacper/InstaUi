@@ -1,13 +1,11 @@
 import "App.scss";
-import { Post } from "components/Post";
-import { PostModel } from "models/PostModel";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "store";
-import { setPosts } from "store/actions/postAction";
+import {Post} from "components/Post";
+import {PostModel} from "models/PostModel";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "store";
+import {setPosts} from "store/actions/postAction";
 import CircularProgress from "@mui/material/CircularProgress";
-import { signOut } from "store/actions/authActions";
-import Button from "@mui/material/Button";
 
 interface HomeProps {}
 
@@ -29,7 +27,6 @@ export const Home: React.FC<HomeProps> = ({}) => {
   }
   return (
     <div className="home-wrapper">
-      <Button onClick={() => action(signOut())}>Wyloguj sie</Button>
       {posts &&
         posts.map((post: PostModel) => (
           <Post
