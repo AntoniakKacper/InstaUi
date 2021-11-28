@@ -87,7 +87,7 @@ export const SignIn: React.FC<SignInProps> = () => {
           <PasswordInput label="Password" name="password" variant="outlined" />
           {loading ? (
             <Button variant="outlined" color="primary" disabled>
-              <CircularProgress color="secondary" size={20} />
+                Loading...
             </Button>
           ) : (
             <Button type="submit" variant="contained">

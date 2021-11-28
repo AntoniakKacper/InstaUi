@@ -28,11 +28,11 @@ export const Post: React.FC<PostProps> = ({
     setAnchorEl(null);
   };
   return (
-    <div className="post-container">
-      <div className="post-nav">
-        <div className="post-nav-user">
+    <div className="post">
+      <div className="post__nav">
+        <div>
           <Avatar alt={username} src={avatarUrl} />
-          <p className="post-username">{username}</p>
+          <p className="post__username">{username}</p>
         </div>
         <IconButton onClick={handleClick}>
           <MoreHorizIcon />
@@ -51,35 +51,35 @@ export const Post: React.FC<PostProps> = ({
           <MenuItem onClick={handleClose}>Anuluj</MenuItem>
         </Menu>
       </div>
-      <div className="post-content">
-        <img className="post-img" src={imageUrl} alt="instaphoto" />
-        <div className="post-info">
-          <div className="post-buttons">
-            <div className="post-btn-container">
-              <i className="far fa-heart post-icon"></i>
-              <i className="far fa-comment post-icon"></i>
-              <i className="far fa-paper-plane post-icon"></i>
+      <div>
+        <img className="post__img" src={imageUrl} alt="instaphoto" />
+        <div className="post__info">
+          <div className="post__buttons">
+            <div>
+              <i className="far fa-heart post-icon" />
+              <i className="far fa-comment post-icon" />
+              <i className="far fa-paper-plane post-icon" />
             </div>
-            <i className="far fa-bookmark post-icon"></i>
+            <i className="far fa-bookmark post-icon" />
           </div>
 
           <p className="post-likes">Liczba polubień: 2137</p>
 
-          <span className="post-username">{username}</span>
-          {description}
+          <div><span className="post__username">{username}</span>
+            {description}</div>
           <div className="post-comments">
             <div className="post-comment">
               <p>
-                <span className="post-username">kom1</span>Wypierdalaj do domu
-                ciapaku jeabny
+                <span className="post__username">kom1</span>Lorem ipsum dolor sit,
+                amet consectetur adipisicing elit. Officiis
               </p>
             </div>
             <p>
-              <span className="post-username">kom1</span>Lorem ipsum dolor sit,
+              <span className="post__username">kom1</span>Lorem ipsum dolor sit,
               amet consectetur adipisicing elit. Officiis
             </p>
             <p>
-              <span className="post-username">kom1</span>Lorem ipsum dolor sit,
+              <span className="post__username">kom1</span>Lorem ipsum dolor sit,
               amet consectetur adipisicing elit. Officiis
             </p>
           </div>

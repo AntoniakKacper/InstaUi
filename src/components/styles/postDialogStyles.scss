@@ -1,0 +1,54 @@
+.post-dialog{
+  font-size: 14px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+  }
+
+  &__author{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > p {
+      font-weight: bold;
+      padding-left: 10px;
+    }
+  }
+
+  &__content{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: space-between;
+  }
+
+  &__buttons{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    column-gap: 10px;
+    padding-bottom: 15px;
+
+    & > i {
+      font-size: 20px;
+    }
+
+    & > i:nth-last-child(1){
+      margin-left: auto;
+      align-self: flex-end;
+    }
+  }
+
+  &__likes{
+    padding-bottom: 15px;
+    font-weight: bold;
+  }
+
+  &__update-time{
+    font-size: 10px;
+    color: $light-grey
+  }
+}

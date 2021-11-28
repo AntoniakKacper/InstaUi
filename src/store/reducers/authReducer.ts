@@ -18,17 +18,17 @@ export default (state = initialState, action: AuthActionsTypes) => {
                 token: action.payload.token,
                 authenticated: true
             }
-            case SIGN_OUT:
-                return {
-                    ...state,
-                    token: '',
-                    authenticated: false,
-                    user: null
-                }
-                case SIGN_IN_SOCIAL:
-                    return {
-                        ...state
-                    }
+        case SIGN_OUT:
+            return {
+                ...state,
+                token: '',
+                authenticated: false,
+                user: null
+            }
+        case SIGN_IN_SOCIAL:
+            return {
+                ...state
+            }
         default:
             return state;
         

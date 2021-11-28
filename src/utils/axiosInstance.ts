@@ -9,6 +9,7 @@ const axiosCustom = axios.create({
 
 axiosCustom.interceptors.request.use(function (req: AxiosRequestConfig) {
     req.headers!.authorization = `Bearer ${store.getState().auth.token}`;
+    console.log(store.getState().auth.token);
     return req;
 })
 

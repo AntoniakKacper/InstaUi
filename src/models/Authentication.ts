@@ -1,4 +1,4 @@
-export interface signUpData {
+    export interface signUpData {
     name: string;
     email: string;
     password: string;
@@ -11,9 +11,10 @@ export interface signInData {
 }
 
 export interface User {
-    id?: number;
+    id: number;
     name: string;
-    email:string;
+    email: string;
+    avatar: string;
 }
 
 export interface AuthState {

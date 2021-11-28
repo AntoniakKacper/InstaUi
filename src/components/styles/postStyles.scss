@@ -1,54 +1,67 @@
-.post-container {
+.post {
   max-width: 600px;
+  width: 100%;
   height: 100%;
   min-width: 320px;
   background-color: white;
   border: 1px solid #cecece;
   margin-bottom: 40px;
-}
 
-.post-nav {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 15px 15px 15px 15px;
-  align-items: center;
-
-  & > div {
+  &__nav {
     display: flex;
-    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 15px 15px 15px 15px;
     align-items: center;
 
-    & > p {
-      margin-left: 15px;
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      & > p {
+        margin-left: 15px;
+      }
     }
   }
-}
 
-.post-img {
-  max-height: 700px;
-  object-fit: cover;
-}
+  &__img {
+    max-height: 700px;
+    object-fit: cover;
+  }
 
-.post-info {
-  padding: 15px 15px 15px 15px;
-}
+  &__username {
+    font-weight: 600;
+    margin-right: 5px;
+    color: $dark-grey;
+    font-size: 14px;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
 
-.post-buttons {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
+  &__info {
+    padding: 15px 15px 15px 15px;
+  }
 
-.post-btn-container {
-  display: flex;
-  width: 100px;
-  justify-content: space-between;
+  &__buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    & > div {
+      display: flex;
+      width: 100px;
+      justify-content: space-between;
+    }
+  }
+
 }
 
 .post-icon {
   font-size: 24px;
-  color: #555555;
+  color: $dark-grey;
   &:hover {
     cursor: pointer;
     color: grey;
@@ -57,26 +70,10 @@
 
 .post-likes {
   font-size: 14px;
-  color: #555555;
+  color: $dark-grey;
   padding-bottom: 15px;
   padding-top: 15px;
   font-weight: bold;
-}
-
-.post-description-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.post-username {
-  font-weight: 600;
-  margin-right: 5px;
-  color: #555555;
-  font-size: 14px;
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
 }
 
 .post-desc {
@@ -89,5 +86,5 @@
 
 .post-creation-date {
   margin-top: 10px;
-  color: #808080;
+  color: $light-grey;
 }
