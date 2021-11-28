@@ -13,6 +13,8 @@ import {setUserPosts} from "../../store/actions/postAction";
 import {PostModel} from 'models/PostModel';
 import ProfilePost from "../../components/ProfilePost";
 import CircularProgress from "@mui/material/CircularProgress";
+import {Modal} from "../../components/Modal";
+import {ResetPasswordDialog} from "../../components/ResetPasswordDialog";
 
 interface ProfileProps {
 
@@ -23,7 +25,7 @@ export const Profile: React.FC<ProfileProps> = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const { posts } = useSelector((state: RootState) => state.posts);
     const { loading } = useSelector((state: RootState) => state.stateRed);
-    const [openResetDialog, setResetDialog] = useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         user && action(setUserPosts(user.id!));
@@ -34,11 +36,15 @@ export const Profile: React.FC<ProfileProps> = () => {
         console.log("logout")
     }
 
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
     const list = () =>(
         <List>
             <ListItem button>
                 <ListItemIcon><i className="fas fa-cog" /></ListItemIcon>
-                <ListItemText>Change password</ListItemText>
+                <ListItemText onClick={handleOpen}>Change password</ListItemText>
             </ListItem>
             <ListItem button>
                 <ListItemIcon><i className="fas fa-sign-out-alt" /></ListItemIcon>
@@ -87,7 +93,7 @@ export const Profile: React.FC<ProfileProps> = () => {
 
        </div>}
        <Button onClick={handleClick}>Wyloguj sie</Button>
-
+<Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
    </div>
   );
  }

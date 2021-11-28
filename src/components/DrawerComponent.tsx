@@ -10,6 +10,7 @@ interface DrawerProps {
 
 export const DrawerComponent: React.FC<DrawerProps> = ({drawerTitle, list}) => {
     const [visible, setVisible] = useState(false);
+
     const toggle = () => {
         setVisible(!visible);
     };
