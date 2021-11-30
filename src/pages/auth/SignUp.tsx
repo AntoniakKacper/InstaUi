@@ -18,7 +18,7 @@ export const SignUp: React.FC<SignUpProps> = () => {
   const methods = useForm<signUpData>({
     resolver: yupResolver(signUpSchema),
   });
-
+  const [password, confirmedPassword] = methods.watch(['password' ,'password_confirmation']);
   const onSubmit = (data: signUpData) => {
     action(signUp(data));
   };
@@ -53,9 +53,11 @@ export const SignUp: React.FC<SignUpProps> = () => {
             name="password_confirmation"
             variant="outlined"
           />
-          <Button type="submit" variant="contained">
-            Sign Up
-          </Button>
+          {password !== undefined && password === confirmedPassword ? <Button type="submit" variant="contained">
+            Sign up
+          </Button> : <Button type="submit" variant="contained" disabled>
+            Sign up
+          </Button>}
         </form>
       </FormProvider>
 

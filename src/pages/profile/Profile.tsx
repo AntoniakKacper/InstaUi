@@ -15,6 +15,7 @@ import ProfilePost from "../../components/ProfilePost";
 import CircularProgress from "@mui/material/CircularProgress";
 import {Modal} from "../../components/Modal";
 import {ResetPasswordDialog} from "../../components/ResetPasswordDialog";
+import {EditProfile} from "./EditProfile";
 
 interface ProfileProps {
 
@@ -26,6 +27,7 @@ export const Profile: React.FC<ProfileProps> = () => {
     const { posts } = useSelector((state: RootState) => state.posts);
     const { loading } = useSelector((state: RootState) => state.stateRed);
     const [open, setOpen] = useState(false);
+    const [openEditProfile, setOpenEditProfile] = useState(false);
 
     useEffect(() => {
         user && action(setUserPosts(user.id!));
@@ -38,6 +40,10 @@ export const Profile: React.FC<ProfileProps> = () => {
 
     const handleOpen = () => {
         setOpen(true);
+    }
+
+    const handleOpenEditProfile = () => {
+        setOpenEditProfile(true);
     }
 
     const list = () =>(
@@ -68,21 +74,21 @@ export const Profile: React.FC<ProfileProps> = () => {
         />
         <div className="profile-statistics">
             <p className="profile-statistics-number">3</p>
-            <p>Posty</p>
+            <p>Posts</p>
         </div>
         <div className="profile-statistics">
             <p className="profile-statistics-number">5</p>
-            <p>Obserwujący</p>
+            <p>Followers</p>
         </div>
         <div className="profile-statistics">
             <p className="profile-statistics-number">7</p>
-            <p>Obserwuje</p>
+            <p>Following</p>
         </div>
     </div>
        <div className="profile-buttons">
-           <Button variant="outlined">Edytuj profil</Button>
+           <Button variant="outlined" onClick={handleOpenEditProfile}>Edit profile</Button>
            {/*<Button variant="outlined">Ustawienia</Button>*/}
-           <DrawerComponent list={list()} drawerTitle="Ustawienia"/>
+           <DrawerComponent list={list()} drawerTitle="Settings"/>
        </div>
        {loading ? <div className="home-wrapper">
            <CircularProgress size={40} />
@@ -93,7 +99,8 @@ export const Profile: React.FC<ProfileProps> = () => {
 
        </div>}
        <Button onClick={handleClick}>Wyloguj sie</Button>
-<Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
+        <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
+        <Modal open={openEditProfile} setOpen={setOpenEditProfile} children={<EditProfile />}/>
    </div>
   );
  }

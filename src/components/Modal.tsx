@@ -18,6 +18,7 @@ export const Modal: FC<ModalProps> = ({ open, setOpen, children}) => {
       <Dialog
           open={open}
           onClose={handleClose}
+          scroll="body"
           className="modal"
       >
           {children}

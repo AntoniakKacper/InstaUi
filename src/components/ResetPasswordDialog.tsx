@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {PasswordInput} from "./PasswordInput";
 import Button from "@mui/material/Button";
 import {FormProvider, useForm} from "react-hook-form";
@@ -14,6 +14,7 @@ export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
     const methods = useForm<signUpData>({
         resolver: yupResolver(signUpSchema),
     });
+    const [password, confirmedPassword] = methods.watch(['password' ,'password_confirmation']);
 
     const onSubmit = (data: signUpData) => {
         console.log(data);
@@ -21,7 +22,7 @@ export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
 
   return (
        <section className="reset">
-           <h1>Reset your password</h1>
+           <h1>Change your password</h1>
            <FormProvider {...methods}>
                <form
                    onSubmit={methods.handleSubmit(onSubmit)}
@@ -34,9 +35,11 @@ export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
                        name="password_confirmation"
                        variant="outlined"
                    />
-                   <Button type="submit" variant="contained">
-                       Reset password
-                   </Button>
+                   {password !== undefined && password === confirmedPassword ? <Button type="submit" variant="contained">
+                       Change password
+                   </Button> : <Button type="submit" variant="contained" disabled>
+                       Change password
+                   </Button>}
                </form>
            </FormProvider>
        </section>
