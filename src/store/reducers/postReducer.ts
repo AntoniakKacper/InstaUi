@@ -1,5 +1,5 @@
 import {PostState} from "models/PostModel";
-import {DELETE_POST, PostActionsTypes, SET_POSTS} from "store/types/types";
+import {DELETE_POST, LIKE_POST, PostActionsTypes, SET_POSTS} from "store/types/types";
 
 
 const initialState: PostState = {
@@ -19,6 +19,8 @@ export default (state = initialState, action: PostActionsTypes) => {
                 ...state,
                 posts: state.posts!.filter(post => post.id !== action.payload),
             }
+        case LIKE_POST:
+            return state;
         default:
             return state;
 

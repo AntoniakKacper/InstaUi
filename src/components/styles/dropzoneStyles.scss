@@ -1,0 +1,26 @@
+.dropzone{
+  width: 200px;
+  height: 200px;
+  border: 4px dashed #b1b1b1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #b1b1b1;
+
+  &--drag-accept{
+    color: #11f519;
+    border-color: #11f519;
+  }
+
+  &--drag-reject{
+    color: #eb4034;
+    border-color: #eb4034;
+  }
+}
+
+.download-icon{
+  padding-top: 10px;
+  color: #b1b1b1;
+  font-size: 26px;
+}

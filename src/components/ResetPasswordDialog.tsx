@@ -2,22 +2,26 @@ import React, {useState} from 'react';
 import {PasswordInput} from "./PasswordInput";
 import Button from "@mui/material/Button";
 import {FormProvider, useForm} from "react-hook-form";
-import {signUpData} from "../models/Authentication";
+import {passwordResetData} from "../models/Authentication";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {signUpSchema} from "../pages/auth/ValidationSchema";
+import {passwordSchema, signUpSchema} from "../pages/auth/ValidationSchema";
+import {useDispatch} from "react-redux";
+import {passwordReset} from "store/actions/authActions";
 
 interface ResetPasswordDialogProps {
 
 }
 
 export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
-    const methods = useForm<signUpData>({
-        resolver: yupResolver(signUpSchema),
+    const methods = useForm<passwordResetData>({
+        resolver: yupResolver(passwordSchema),
     });
     const [password, confirmedPassword] = methods.watch(['password' ,'password_confirmation']);
+    const action = useDispatch();
 
-    const onSubmit = (data: signUpData) => {
-        console.log(data);
+    const onSubmit = (data: passwordResetData) => {
+        console.log("ebeebe");
+        action(passwordReset(data));
     };
 
   return (
@@ -29,7 +33,7 @@ export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
                    className="reset__form"
                >
 
-                   <PasswordInput label="Password" name="password" variant="outlined" />
+                   <PasswordInput label="New password" name="password" variant="outlined" />
                    <PasswordInput
                        label="Confirm Password"
                        name="password_confirmation"
@@ -37,9 +41,10 @@ export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
                    />
                    {password !== undefined && password === confirmedPassword ? <Button type="submit" variant="contained">
                        Change password
-                   </Button> : <Button type="submit" variant="contained" disabled>
+                   </Button> : <Button type="submit" variant="contained" disabled >
                        Change password
                    </Button>}
+
                </form>
            </FormProvider>
        </section>

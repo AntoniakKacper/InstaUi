@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { BottomNavbar } from "../components/BottomNavbar";
 import { Profile } from "../pages/profile/Profile";
 import { Search } from "pages/search/search";
+import {AddPost} from "../pages/addPost/AddPost";
 
 interface RoutesProps {}
 
@@ -70,6 +71,14 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
                 element={
                     <ProtectedRoute>
                         <Search />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/addPost"
+                element={
+                    <ProtectedRoute>
+                        <AddPost />
                     </ProtectedRoute>
                 }
             />

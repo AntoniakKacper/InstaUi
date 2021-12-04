@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import "App.scss";
 
 import {useSelector} from "react-redux";
 import {RootState} from "store";
 import {Link} from 'react-router-dom';
+
 
 interface NavbarProps {}
 
@@ -18,7 +19,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
           <div className="nav-icons">
             <i className="far fa-paper-plane"/>
-            <i className="far fa-plus-square"/>
+            <Link to="/addPost"><i className="far fa-plus-square"/></Link>
             <i className="far fa-heart"/>
 
           </div>

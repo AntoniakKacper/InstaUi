@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import 'App.scss';
 import { Link } from 'react-router-dom';
 import { SvgIconProps } from '@mui/material/SvgIcon';
-import PersonIcon from '@mui/icons-material/Person';
 
 interface ListOfButtonTypes {
     value: string;

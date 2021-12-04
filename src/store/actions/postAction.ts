@@ -1,4 +1,4 @@
-import {DELETE_POST, PostActionsTypes, SET_POSTS} from "store/types/types";
+import {DELETE_POST, LIKE_POST, PostActionsTypes, SET_POSTS} from "store/types/types";
 import { RootState } from "store";
 import { ThunkAction } from "redux-thunk";
 import axios from "utils/axiosInstance";
@@ -73,6 +73,26 @@ export const deletePost = (id: number): ThunkAction<void, RootState, null, PostA
                     payload: id
                 })
                 dispatch(setLoading(false))
+            })
+        }
+        catch (error: any) {
+            console.log(error);
+            setLoading(false);
+        }
+    }
+}
+
+export const likePost = (id: number): ThunkAction<void, RootState, null, PostActionsTypes> => {
+    return async dispatch => {
+        try{
+            axios.head(`/posts/${id}/like`, {
+                headers: {
+                    Accept: "application/json",
+                },
+            }).then(()  => {
+                dispatch({
+                    type: LIKE_POST,
+                })
             })
         }
         catch (error: any) {

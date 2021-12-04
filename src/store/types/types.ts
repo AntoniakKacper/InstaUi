@@ -7,6 +7,7 @@ export const SIGN_IN_SOCIAL = "SIGN_IN_SOCIAL";
 
 export const SET_POSTS = "SET_POSTS";
 export const DELETE_POST = "DELETE_POST";
+export const LIKE_POST = "LIKE_POST";
 
 export const SET_LOADING = "SET_LOADING";
 
@@ -44,6 +45,10 @@ interface DeletePostAction {
     payload: number
 }
 
+interface LikePostAction{
+    type: typeof LIKE_POST,
+}
+
 
 // ----STATE----
 
@@ -55,6 +60,6 @@ interface SetLoadingAction {
 
 export type AuthActionsTypes = SetUserAction | SignOutAction | SignInSocialAction;
 
-export type PostActionsTypes = SetPostsAction | DeletePostAction;
+export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction;
 
 export type StateActionTypes = SetLoadingAction;

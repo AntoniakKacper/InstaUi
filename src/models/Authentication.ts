@@ -10,6 +10,11 @@ export interface signInData {
     password: string;
 }
 
+export interface passwordResetData{
+    password: string;
+    password_confirmation: string;
+}
+
 export interface User {
     id: number;
     name: string;

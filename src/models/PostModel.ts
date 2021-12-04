@@ -10,7 +10,8 @@ export interface PostModel{
     created_at: Date;
     updated_at: Date;
     author: User;
-    likes: number;
+    likes_count: number;
+    isLiked: boolean;
 }
 
 export interface PostState {

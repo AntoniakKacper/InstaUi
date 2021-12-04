@@ -34,11 +34,24 @@
 
     & > i {
       font-size: 20px;
+
+      &:hover{
+        color: grey;
+        cursor: pointer;
+      }
     }
 
     & > i:nth-last-child(1){
       margin-left: auto;
       align-self: flex-end;
+    }
+  }
+
+  &__icon-filled{
+    color: $light-red;
+
+    &:hover{
+      color: $light-red !important;
     }
   }
 
@@ -48,7 +61,50 @@
   }
 
   &__update-time{
-    font-size: 10px;
-    color: $light-grey
+    font-size: 11px;
+    color: $light-grey;
+    margin-bottom: 16px;
+  }
+
+  &__comment-container{
+    display: flex;
+    align-items: stretch;
+    min-height: 48px;
+    padding-top: 6px;
+    border-top: 1px solid #efefef;
+
+  }
+
+  &__input{
+    flex: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    font-size: 14px;
+  }
+
+  &__share-comment{
+    border: none;
+    background: none;
+    width: 80px;
+    font-size: 14px;
+    font-weight: bold;
+    color: $light-blue;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  &__emoji{
+    border: none;
+    background: none;
+    width: 40px;
+    font-size: 30px;
+
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
