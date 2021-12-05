@@ -16,7 +16,7 @@ export default (state = initialState, action: AuthActionsTypes) => {
                 ...state,
                 user: action.payload.user,
                 token: action.payload.token,
-                authenticated: true
+                authenticated: true,
             }
         case SIGN_OUT:
             return {

@@ -7,6 +7,8 @@ import Avatar from "@mui/material/Avatar";
 import 'App.scss';
 import { Link } from 'react-router-dom';
 import { SvgIconProps } from '@mui/material/SvgIcon';
+import {useSelector} from "react-redux";
+import {RootState} from "../store";
 
 interface ListOfButtonTypes {
     value: string;
@@ -19,6 +21,7 @@ interface BottomNavbarProps {
 
 export const BottomNavbar: React.FC<BottomNavbarProps> = () => {
     const [value, setValue] = React.useState("home");
+    const { user } = useSelector((state: RootState) => state.auth)
     const ListOfButtons: ListOfButtonTypes[] = [
         {
             value: "home",
@@ -29,7 +32,7 @@ export const BottomNavbar: React.FC<BottomNavbarProps> = () => {
             icon: <SearchIcon />,
         },
         {
-            value: "profile",
+            value: `profile/${user!.id}`,
             icon:<Avatar
                 alt="Remy Sharp"
                 src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"

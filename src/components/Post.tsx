@@ -8,8 +8,10 @@ import { IconButton } from "@mui/material";
 import {Modal} from "./Modal";
 import {PostModel} from "../models/PostModel";
 import {PostDialog} from "./PostDialog";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {likePost} from "../store/actions/postAction";
+import { Link } from 'react-router-dom';
+import {RootState} from "../store";
 
 interface PostProps {
   avatarUrl: string;
@@ -27,12 +29,14 @@ export const Post: React.FC<PostProps> = ({
     post
 }) => {
   const action = useDispatch();
-  const {id, author, img_url, description, isLiked, likes_count} = post;
+  const {id, author, img_url, description, isLiked, likes_count, comments} = post;
   const [openPost, setOpenPost] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [like, setLike] = useState(isLiked);
-  const [likesCount, setLikesCount] = useState(likes_count);
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+
+  }, [isLiked])
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -42,10 +46,13 @@ export const Post: React.FC<PostProps> = ({
     setAnchorEl(null);
   };
 
+  const handleOpen = () => {
+    handleClose();
+    setOpenPost(true);
+  }
+
   const toggle = () => {
-    setLike(!like);
-    like ? setLikesCount(likesCount - 1) : setLikesCount(likesCount + 1);
-    action(likePost(id));
+    action(likePost(post));
   };
 
 
@@ -54,7 +61,7 @@ export const Post: React.FC<PostProps> = ({
       <div className="post__nav">
         <div>
           <Avatar alt={username} src={avatarUrl} />
-          <p className="post__username">{username}</p>
+          <Link to={`/profile/${post.id}`} className="post__username">{username}</Link>
         </div>
         <IconButton onClick={handleClick}>
           <MoreHorizIcon />
@@ -68,7 +75,7 @@ export const Post: React.FC<PostProps> = ({
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={() => setOpenPost(true)}>Redirect to post</MenuItem>
+          <MenuItem onClick={handleOpen}>Redirect to post</MenuItem>
           <MenuItem onClick={handleClose}>Stop following</MenuItem>
           <MenuItem onClick={handleClose}>Cancel</MenuItem>
         </Menu>
@@ -77,30 +84,21 @@ export const Post: React.FC<PostProps> = ({
         <img className="post__img" src={imageUrl} alt="instaphoto" />
         <div className="post__info">
           <div className="post__buttons">
-            {like ? <i className="fas fa-fire post-icon post-icon--filled" onClick={toggle}/> : <i className="fas fa-fire post-icon" onClick={toggle} />}
+            {isLiked ? <i className="fas fa-fire post-icon post-icon--filled" onClick={toggle}/> :
+                <i className="fas fa-fire post-icon" onClick={toggle} />}
             <i className="far fa-bookmark post-icon" />
           </div>
 
-          <p className="post-likes">Likes: {likesCount}</p>
+          <p className="post-likes">Likes: {likes_count}</p>
 
-          <div><span className="post__username">{username}</span>
+          <div><Link to={`/profile/${post.id}`} className="post__username">{username}</Link>
             {description}</div>
           <div className="post-comments">
-            <div className="post-comment">
-              <p>
-                <span className="post__username">kom1</span>Lorem ipsum dolor sit,
-                amet consectetur adipisicing elit. Officiis
-              </p>
-            </div>
-            <p>
-              <span className="post__username">kom1</span>Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Officiis
-            </p>
-            <p>
-              <span className="post__username">kom1</span>Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Officiis
-            </p>
+            {comments && comments.map(comment => <p>
+              <Link to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
+            </p>)}
           </div>
+
           <p className="post-creation-date">2 GODZ. TEMU</p>
         </div>
       </div>

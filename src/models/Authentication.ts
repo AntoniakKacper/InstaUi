@@ -1,4 +1,6 @@
-    export interface signUpData {
+import { User } from './UserModel';
+
+export interface signUpData {
     name: string;
     email: string;
     password: string;
@@ -13,13 +15,6 @@ export interface signInData {
 export interface passwordResetData{
     password: string;
     password_confirmation: string;
-}
-
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    avatar: string;
 }
 
 export interface AuthState {

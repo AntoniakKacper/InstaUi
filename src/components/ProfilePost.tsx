@@ -23,11 +23,11 @@ const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
                 <div className="profile-posts-item-overlay-container">
                     <div className="profile-posts-item-overlay-icon">
                         <i className="fas fa-comment"/>
-                        <p>23</p>
+                        <p>{post.comments_count}</p>
                     </div>
                     <div className="profile-posts-item-overlay-icon">
                         <i className="fas fa-heart"/>
-                        <p>12</p>
+                        <p>{post.likes_count}</p>
                     </div>
                 </div>
             </div>

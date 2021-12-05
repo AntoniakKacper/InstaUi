@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from "@mui/material/Button";
 import {signOut} from "store/actions/authActions";
@@ -16,6 +16,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {Modal} from "../../components/Modal";
 import {ResetPasswordDialog} from "../../components/ResetPasswordDialog";
 import {EditProfile} from "./EditProfile";
+import {useLocation, useParams} from "react-router-dom";
+import {followUser, getUserById} from "../../store/actions/userActions";
 
 interface ProfileProps {
 
@@ -23,15 +25,24 @@ interface ProfileProps {
 
 export const Profile: React.FC<ProfileProps> = () => {
     const action = useDispatch();
-    const { user } = useSelector((state: RootState) => state.auth);
+    const loggedUserId = useSelector((state: RootState) => state.auth.user!.id);
+    const { user } = useSelector((state: RootState) => state.userReducer);
     const { posts } = useSelector((state: RootState) => state.posts);
     const { loading } = useSelector((state: RootState) => state.stateRed);
+    const { id } = useParams<string>();
     const [open, setOpen] = useState(false);
     const [openEditProfile, setOpenEditProfile] = useState(false);
 
+
     useEffect(() => {
+        console.log('user');
+        action(getUserById(Number(id)));
+    }, [id]);
+
+    useEffect(() => {
+        console.log("posts");
         user && action(setUserPosts(user.id!));
-    }, [user, action])
+    }, [user])
 
     const handleClick = () => {
         action(signOut());
@@ -46,12 +57,17 @@ export const Profile: React.FC<ProfileProps> = () => {
         setOpenEditProfile(true);
     }
 
-    const list = () =>(
-        <List>
+    const handleFollow = () => {
+        console.log(user);
+        user && action(followUser(user));
+    }
+
+    const list = () => {
+        return (<List>
             <ListItem button>
-                <ListItemIcon><i className="fas fa-cog" /></ListItemIcon>
-                <ListItemText onClick={handleOpen}>Change password</ListItemText>
-            </ListItem>
+            <ListItemIcon><i className="fas fa-cog" /></ListItemIcon>
+            <ListItemText onClick={handleOpen}>Change password</ListItemText>
+        </ListItem>
             <ListItem button>
                 <ListItemIcon><i className="fas fa-sign-out-alt" /></ListItemIcon>
                 <ListItemText onClick={handleClick}>Sign Out</ListItemText>
@@ -60,10 +76,30 @@ export const Profile: React.FC<ProfileProps> = () => {
                 <ListItemIcon><i className="far fa-times-circle"/></ListItemIcon>
                 <ListItemText>Cancel</ListItemText>
             </ListItem>
-        </List>
+        </List>);
+    };
 
-    );
+    const buttons = () => {
+        if(loggedUserId === Number(id)){
+            return (<div className="profile-buttons">
+                <Button variant="outlined" onClick={handleOpenEditProfile}>Edit profile</Button>
+                {/*<Button variant="outlined">Ustawienia</Button>*/}
+                <DrawerComponent list={list()} drawerTitle="Settings"/>
+            </div>)
+        }
+        else{
+            return (<div className="profile-buttons">
+                {user?.isFollowed ? <Button variant="outlined" onClick={handleFollow}>Unfollow</Button> : <Button variant="outlined" onClick={handleFollow}>Follow</Button>}
+            </div>)
+        }
+    }
 
+
+    if(loading){
+        return <div className="home-wrapper">
+            <CircularProgress size={40} />
+        </div>
+    }
   return (
    <div className="profile-wrapper">
     <div className="profile-header">
@@ -73,32 +109,34 @@ export const Profile: React.FC<ProfileProps> = () => {
             sx={{ width: 70, height: 70 }}
         />
         <div className="profile-statistics">
-            <p className="profile-statistics-number">3</p>
+            <p className="profile-statistics-number">{user?.posts_count}</p>
             <p>Posts</p>
         </div>
         <div className="profile-statistics">
-            <p className="profile-statistics-number">5</p>
+            <p className="profile-statistics-number">{user?.followers_count}</p>
             <p>Followers</p>
         </div>
         <div className="profile-statistics">
-            <p className="profile-statistics-number">7</p>
+            <p className="profile-statistics-number">{user?.followed_count}</p>
             <p>Following</p>
         </div>
     </div>
        <div className="profile-buttons">
-           <Button variant="outlined" onClick={handleOpenEditProfile}>Edit profile</Button>
-           {/*<Button variant="outlined">Ustawienia</Button>*/}
-           <DrawerComponent list={list()} drawerTitle="Settings"/>
+           {buttons()}
        </div>
-       {loading ? <div className="home-wrapper">
-           <CircularProgress size={40} />
-       </div> : <div className="profile-posts">
+       {/*{loading ? <div className="home-wrapper">*/}
+       {/*    <CircularProgress size={40} />*/}
+       {/*</div> :*/}
+       {/*    <div className="profile-posts">*/}
+       {/*        {posts && posts.map((post:PostModel) =>*/}
+       {/*            <ProfilePost post={post} key={post.id}/>*/}
+       {/*        )}*/}
+       {/*</div>}*/}
+       <div className="profile-posts">
            {posts && posts.map((post:PostModel) =>
                <ProfilePost post={post} key={post.id}/>
            )}
-
-       </div>}
-       <Button onClick={handleClick}>Wyloguj sie</Button>
+       </div>
         <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
         <Modal open={openEditProfile} setOpen={setOpenEditProfile} children={<EditProfile />}/>
    </div>

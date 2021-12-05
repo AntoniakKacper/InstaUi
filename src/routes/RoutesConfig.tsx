@@ -57,9 +57,8 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
               </ProtectedRoute>
             }
           />
-
             <Route
-                path="/profile"
+                path="/profile/:id"
                 element={
                     <ProtectedRoute>
                         <Profile />

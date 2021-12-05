@@ -110,15 +110,16 @@ export const signInSocial = (passedToken: string, social: "google" | "github"): 
 
 export const passwordReset = (data: passwordResetData): ThunkAction<void, RootState, null, AuthActionsTypes> => {
     return async dispatch => {
-        try{
+        try {
             axios.post('./password-change', data
             ).then
             ((response: any) => {
                 console.log(response);
             }).catch((error) => console.log(error))
-        }
-        catch (error: any) {
+        } catch (error: any) {
             console.log(error);
         }
     }
 }
+
+

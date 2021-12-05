@@ -9,6 +9,7 @@ import Menu from "@mui/material/Menu";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../store";
 import {deletePost, likePost} from "../store/actions/postAction";
+import {Link} from "react-router-dom";
 
 interface PostDialogProps {
  post: PostModel;
@@ -26,9 +27,8 @@ export const PostDialog: FC<PostDialogProps> = ({post }) => {
 
     const toggleLike = () => {
         setLike(!like);
-        //ZMIENIAC W REDUCERZE
         like ? setLikesCount(likesCount - 1) : setLikesCount(likesCount + 1);
-        action(likePost(post.id));
+        action(likePost(post));
     }
 
     const toggle = () => {

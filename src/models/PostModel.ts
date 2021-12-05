@@ -1,4 +1,5 @@
-import { User } from "./Authentication";
+import { User } from "./UserModel";
+import {Comment} from "./CommentModel";
 
 export interface PostModel{
     id: number;
@@ -11,7 +12,9 @@ export interface PostModel{
     updated_at: Date;
     author: User;
     likes_count: number;
+    comments_count: number;
     isLiked: boolean;
+    comments: Comment[];
 }
 
 export interface PostState {

@@ -7,6 +7,7 @@ import authReducer from './reducers/authReducer';
 import { persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/es/persistReducer';
+import userReducer from "./reducers/userReducer";
 
 const persistConfig = {
     key: 'root',
@@ -17,7 +18,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
     stateRed: stateReducer,
     posts: postReducer,
-    auth: authReducer
+    auth: authReducer,
+    userReducer: userReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
