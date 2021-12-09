@@ -11,12 +11,13 @@ export const setPosts = (): ThunkAction<void, RootState, null, PostActionsTypes>
     return async dispatch => {
         try{
             dispatch(setLoading(true));
-            axios.get("./posts", {
+            await axios.get("./posts", {
                 headers: {
                   Accept: "application/json",
                 },
               }).then((res)  => {
                   const response = res.data
+                  console.log(response);
                   dispatch({
                       type: SET_POSTS,
                       payload: response.data as PostModel[]

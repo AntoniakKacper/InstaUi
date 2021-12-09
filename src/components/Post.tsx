@@ -29,11 +29,11 @@ export const Post: React.FC<PostProps> = ({
     post
 }) => {
   const action = useDispatch();
-  const {id, author, img_url, description, isLiked, likes_count, comments} = post;
+  const { description, isLiked, likes_count, comments} = post;
   const [openPost, setOpenPost] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  //console.log(comments);
   useEffect(() => {
 
   }, [isLiked])
@@ -95,7 +95,7 @@ export const Post: React.FC<PostProps> = ({
             {description}</div>
           <div className="post-comments">
             {comments && comments.map(comment => <p>
-              <Link to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
+              <Link key={comment.id} to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
             </p>)}
           </div>
 

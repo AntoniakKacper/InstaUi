@@ -18,10 +18,14 @@ import {ResetPasswordDialog} from "../../components/ResetPasswordDialog";
 import {EditProfile} from "./EditProfile";
 import {useLocation, useParams} from "react-router-dom";
 import {followUser, getUserById} from "../../store/actions/userActions";
+import FollowListDialog from "./FollowListDialog";
 
 interface ProfileProps {
 
 }
+
+type Path = 'followers' | 'followed';
+
 
 export const Profile: React.FC<ProfileProps> = () => {
     const action = useDispatch();
@@ -32,6 +36,8 @@ export const Profile: React.FC<ProfileProps> = () => {
     const { id } = useParams<string>();
     const [open, setOpen] = useState(false);
     const [openEditProfile, setOpenEditProfile] = useState(false);
+    const [followOpen, setFollowOpen] = useState(false);
+    const [path, setPath] = useState<Path>('followers');
 
 
     useEffect(() => {
@@ -60,6 +66,11 @@ export const Profile: React.FC<ProfileProps> = () => {
     const handleFollow = () => {
         console.log(user);
         user && action(followUser(user));
+    }
+
+    const handleFollowOpen = (passedPath: Path) => {
+        setPath(passedPath);
+        setFollowOpen(true);
     }
 
     const list = () => {
@@ -112,11 +123,11 @@ export const Profile: React.FC<ProfileProps> = () => {
             <p className="profile-statistics-number">{user?.posts_count}</p>
             <p>Posts</p>
         </div>
-        <div className="profile-statistics">
+        <div className="profile-statistics" onClick={() => handleFollowOpen('followers')}>
             <p className="profile-statistics-number">{user?.followers_count}</p>
             <p>Followers</p>
         </div>
-        <div className="profile-statistics">
+        <div className="profile-statistics" onClick={() => handleFollowOpen('followed')}>
             <p className="profile-statistics-number">{user?.followed_count}</p>
             <p>Following</p>
         </div>
@@ -139,6 +150,7 @@ export const Profile: React.FC<ProfileProps> = () => {
        </div>
         <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
         <Modal open={openEditProfile} setOpen={setOpenEditProfile} children={<EditProfile />}/>
+        <Modal open={followOpen} setOpen={setFollowOpen} children={<FollowListDialog id={user.id} path={path} />}/>
    </div>
   );
  }

@@ -31,6 +31,7 @@ export const followUser = (user: User): ThunkAction<void, RootState, null, UserA
     return async dispatch => {
         try {
             axios.head(`./users/${user.id}/follow`).then(() => {
+                user.followers_count += user.isFollowed ? -1 : +1;
                 user.isFollowed = !user.isFollowed;
                 dispatch({
                     type: FOLLOW_USER,
