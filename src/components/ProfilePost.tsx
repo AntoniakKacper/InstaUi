@@ -18,7 +18,7 @@ const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
     return (
         <div>
         <div className="profile-posts-item" onClick={toggle}>
-            <img className="profile-posts-item-image" src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80" alt="xd"/>
+            <img className="profile-posts-item-image" src={post.img_url} alt="xd"/>
             <div className="profile-posts-item-overlay">
                 <div className="profile-posts-item-overlay-container">
                     <div className="profile-posts-item-overlay-icon">

@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from "@mui/material/Button";
 import {signOut} from "store/actions/authActions";
@@ -16,7 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {Modal} from "../../components/Modal";
 import {ResetPasswordDialog} from "../../components/ResetPasswordDialog";
 import {EditProfile} from "./EditProfile";
-import {useLocation, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {followUser, getUserById} from "../../store/actions/userActions";
 import FollowListDialog from "./FollowListDialog";
 
@@ -68,9 +68,13 @@ export const Profile: React.FC<ProfileProps> = () => {
         user && action(followUser(user));
     }
 
-    const handleFollowOpen = (passedPath: Path) => {
-        setPath(passedPath);
-        setFollowOpen(true);
+    const handleFollowOpen = (passedPath: Path) =>{
+        if( user &&
+            (user.followers_count > 0 && passedPath === 'followers'
+            || user.followed_count > 0 && passedPath === 'followed')){
+            setPath(passedPath);
+            setFollowOpen(true);
+        }
     }
 
     const list = () => {
@@ -94,7 +98,6 @@ export const Profile: React.FC<ProfileProps> = () => {
         if(loggedUserId === Number(id)){
             return (<div className="profile-buttons">
                 <Button variant="outlined" onClick={handleOpenEditProfile}>Edit profile</Button>
-                {/*<Button variant="outlined">Ustawienia</Button>*/}
                 <DrawerComponent list={list()} drawerTitle="Settings"/>
             </div>)
         }
@@ -135,14 +138,6 @@ export const Profile: React.FC<ProfileProps> = () => {
        <div className="profile-buttons">
            {buttons()}
        </div>
-       {/*{loading ? <div className="home-wrapper">*/}
-       {/*    <CircularProgress size={40} />*/}
-       {/*</div> :*/}
-       {/*    <div className="profile-posts">*/}
-       {/*        {posts && posts.map((post:PostModel) =>*/}
-       {/*            <ProfilePost post={post} key={post.id}/>*/}
-       {/*        )}*/}
-       {/*</div>}*/}
        <div className="profile-posts">
            {posts && posts.map((post:PostModel) =>
                <ProfilePost post={post} key={post.id}/>
@@ -150,7 +145,10 @@ export const Profile: React.FC<ProfileProps> = () => {
        </div>
         <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
         <Modal open={openEditProfile} setOpen={setOpenEditProfile} children={<EditProfile />}/>
-        <Modal open={followOpen} setOpen={setFollowOpen} children={<FollowListDialog id={user.id} path={path} />}/>
+       {user &&
+           <Modal open={followOpen} setOpen={setFollowOpen} scrollType='paper'
+                  children={<FollowListDialog id={user.id} path={path} setOpen={setFollowOpen} />}
+       />}
    </div>
   );
  }

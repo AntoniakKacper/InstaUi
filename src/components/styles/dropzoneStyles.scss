@@ -1,26 +1,30 @@
 .dropzone{
-  width: 200px;
-  height: 200px;
-  border: 4px dashed #b1b1b1;
+  min-width: 320px;
+  max-width: 1000px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: #b1b1b1;
+  min-height: 400px;
+  font-size: 26px;
+
+  &__info{
+    padding-bottom: 20px;
+  }
+}
+
+
+
+.icon{
+  padding-bottom: 10px;
+  font-size: 72px;
 
   &--drag-accept{
-    color: #11f519;
-    border-color: #11f519;
+    color: $light-blue;
   }
 
   &--drag-reject{
     color: #eb4034;
-    border-color: #eb4034;
   }
-}
-
-.download-icon{
-  padding-top: 10px;
-  color: #b1b1b1;
-  font-size: 26px;
 }

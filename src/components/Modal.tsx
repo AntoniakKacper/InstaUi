@@ -8,9 +8,10 @@ interface ModalProps {
     open: boolean;
     setOpen:  Dispatch<SetStateAction<boolean>>;
     children: JSX.Element;
+    scrollType?: "paper" | "body";
 }
 
-export const Modal: FC<ModalProps> = ({ open, setOpen, children}) => {
+export const Modal: FC<ModalProps> = ({ open, setOpen, children, scrollType}) => {
     const handleClose = () => {
         setOpen(false);
     };
@@ -18,7 +19,7 @@ export const Modal: FC<ModalProps> = ({ open, setOpen, children}) => {
       <Dialog
           open={open}
           onClose={handleClose}
-          scroll="body"
+          scroll={scrollType ? scrollType : "body"}
           className="modal"
       >
           {children}

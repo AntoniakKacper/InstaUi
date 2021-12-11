@@ -10,7 +10,7 @@ import {setLoading} from "./stateActions";
 export const signUp = (data: signUpData): ThunkAction<void, RootState, null, AuthActionsTypes> => {
     return async dispatch => {
         try{
-           axios.post('./register', data
+           await axios.post('./register', data
            ).then
            ((response: any) => {
             const user = response.data.data.user;
@@ -35,7 +35,7 @@ export const signIn = (data: signInData): ThunkAction<void, RootState, null, Aut
     return async dispatch => {
         try{
             //setLoading(true);
-           axios.post('/login', data
+           await axios.post('/login', data
            ).then
            ((response) => {
                console.log(response)
@@ -63,7 +63,7 @@ export const signOut = (): ThunkAction<void, RootState, null, AuthActionsTypes> 
     return async dispatch => {
         try{
             setLoading(true);
-            axios.post('./logout').then(() => {
+            await axios.post('./logout').then(() => {
                 dispatch({
                     type: SIGN_OUT
                 })
@@ -81,7 +81,7 @@ export const signOut = (): ThunkAction<void, RootState, null, AuthActionsTypes> 
 export const signInSocial = (passedToken: string, social: "google" | "github"): ThunkAction<void, RootState, null, AuthActionsTypes> => {
     return async dispatch => {
         try{
-            axios.get(`./login/${social}/callback`,
+            await axios.get(`./login/${social}/callback`,
                 {
                     params: {
                         token: passedToken
@@ -111,7 +111,7 @@ export const signInSocial = (passedToken: string, social: "google" | "github"): 
 export const passwordReset = (data: passwordResetData): ThunkAction<void, RootState, null, AuthActionsTypes> => {
     return async dispatch => {
         try {
-            axios.post('./password-change', data
+            await axios.post('./password-change', data
             ).then
             ((response: any) => {
                 console.log(response);

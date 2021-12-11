@@ -94,8 +94,8 @@ export const Post: React.FC<PostProps> = ({
           <div><Link to={`/profile/${post.id}`} className="post__username">{username}</Link>
             {description}</div>
           <div className="post-comments">
-            {comments && comments.map(comment => <p>
-              <Link key={comment.id} to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
+            {comments && comments.map(comment => <p key={comment.id}>
+              <Link to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
             </p>)}
           </div>
 

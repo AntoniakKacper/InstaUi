@@ -9,7 +9,7 @@ export const getUserById = (id: number): ThunkAction<void, RootState, null, User
     return async dispatch => {
         try{
             dispatch(setLoading(true));
-            axios.get(`./users/${id}`, {
+            await axios.get(`./users/${id}`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -30,7 +30,7 @@ export const getUserById = (id: number): ThunkAction<void, RootState, null, User
 export const followUser = (user: User): ThunkAction<void, RootState, null, UserActionTypes> => {
     return async dispatch => {
         try {
-            axios.head(`./users/${user.id}/follow`).then(() => {
+            await axios.head(`./users/${user.id}/follow`).then(() => {
                 user.followers_count += user.isFollowed ? -1 : +1;
                 user.isFollowed = !user.isFollowed;
                 dispatch({

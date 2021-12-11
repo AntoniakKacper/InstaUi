@@ -35,7 +35,7 @@ export const setPosts = (): ThunkAction<void, RootState, null, PostActionsTypes>
 export const setUserPosts = (id: number): ThunkAction<void, RootState, null, PostActionsTypes> => {
     return async dispatch => {
         try{
-            axios.get(`./users/${id}/posts`, {
+            await axios.get(`./users/${id}/posts`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -59,7 +59,7 @@ export const deletePost = (id: number): ThunkAction<void, RootState, null, PostA
     return async dispatch => {
         try{
             dispatch(setLoading(true));
-            axios.delete(`/posts/${id}`, {
+            await axios.delete(`/posts/${id}`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -81,7 +81,7 @@ export const deletePost = (id: number): ThunkAction<void, RootState, null, PostA
 export const likePost = (post: PostModel): ThunkAction<void, RootState, null, PostActionsTypes> => {
     return async dispatch => {
         try{
-            axios.head(`/posts/${post.id}/like`, {
+            await axios.head(`/posts/${post.id}/like`, {
                 headers: {
                     Accept: "application/json",
                 },

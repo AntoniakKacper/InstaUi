@@ -20,3 +20,9 @@ export interface PostModel{
 export interface PostState {
     posts: null | PostModel[],
 }
+
+export interface AddPostModel{
+    description: string,
+    tags: string,
+    photo: Blob | null;
+}
