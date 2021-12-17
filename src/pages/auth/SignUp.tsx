@@ -23,7 +23,7 @@ export const SignUp: React.FC<SignUpProps> = () => {
     action(signUp(data));
   };
   return (
-    <div className="wrapper">
+    <div className="auth__wrapper">
       <div className="auth__header">
         <h1>Sign up</h1>
       </div>

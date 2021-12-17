@@ -1,8 +1,8 @@
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import {IconButton, InputAdornment, TextField} from "@mui/material";
+import React, {useState} from "react";
+import {useFormContext} from "react-hook-form";
 
 interface PasswordInputProps {
   label: string;

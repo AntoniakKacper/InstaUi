@@ -14,26 +14,17 @@ import { Link } from 'react-router-dom';
 import {RootState} from "../store";
 
 interface PostProps {
-  avatarUrl: string;
-  username: string;
-  imageUrl: string;
-  // description: string;
   post: PostModel
 }
 
 export const Post: React.FC<PostProps> = ({
-  avatarUrl,
-  username,
-  imageUrl,
-  // description
     post
 }) => {
   const action = useDispatch();
-  const { description, isLiked, likes_count, comments} = post;
+  const { description, isLiked, likes_count, comments, author} = post;
   const [openPost, setOpenPost] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  //console.log(comments);
   useEffect(() => {
 
   }, [isLiked])
@@ -55,13 +46,13 @@ export const Post: React.FC<PostProps> = ({
     action(likePost(post));
   };
 
-
+//TODO wyswietlanie komentarzy
   return (
     <div className="post">
       <div className="post__nav">
         <div>
-          <Avatar alt={username} src={avatarUrl} />
-          <Link to={`/profile/${post.id}`} className="post__username">{username}</Link>
+          <Avatar alt="post" src={author.avatar_url} />
+          <Link to={`/profile/${author.id}`} className="post__username">{author.name}</Link>
         </div>
         <IconButton onClick={handleClick}>
           <MoreHorizIcon />
@@ -81,7 +72,7 @@ export const Post: React.FC<PostProps> = ({
         </Menu>
       </div>
       <div>
-        <img className="post__img" src={imageUrl} alt="instaphoto" />
+        <img className="post__img" src={post.img_url} alt="instaphoto" />
         <div className="post__info">
           <div className="post__buttons">
             {isLiked ? <i className="fas fa-fire post-icon post-icon--filled" onClick={toggle}/> :
@@ -91,7 +82,7 @@ export const Post: React.FC<PostProps> = ({
 
           <p className="post-likes">Likes: {likes_count}</p>
 
-          <div><Link to={`/profile/${post.id}`} className="post__username">{username}</Link>
+          <div><Link to={`/profile/${author.id}`} className="post__username">{author.name}</Link>
             {description}</div>
           <div className="post-comments">
             {comments && comments.map(comment => <p key={comment.id}>
@@ -102,7 +93,7 @@ export const Post: React.FC<PostProps> = ({
           <p className="post-creation-date">2 GODZ. TEMU</p>
         </div>
       </div>
-      <Modal open={openPost} setOpen={setOpenPost} children={<PostDialog post={post} />} />
+      <Modal open={openPost} setOpen={setOpenPost} children={<PostDialog post={post} user={post.author} />} />
     </div>
   );
 };

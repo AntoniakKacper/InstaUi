@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, ChangeEvent} from 'react'
 import TextField from '@mui/material/TextField';
 import {AddPostModel} from 'models/PostModel';
 import Avatar from '@mui/material/Avatar';

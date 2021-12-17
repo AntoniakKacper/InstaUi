@@ -1,9 +1,8 @@
-import {DELETE_POST, LIKE_POST, PostActionsTypes, SET_POSTS} from "store/types/types";
-import { RootState } from "store";
-import { ThunkAction } from "redux-thunk";
+import {DELETE_POST, LIKE_POST, PostActionsTypes, SET_LOADING, SET_POSTS} from "store/types/types";
+import {RootState} from "store";
+import {ThunkAction} from "redux-thunk";
 import axios from "utils/axiosInstance";
-import { PostModel } from "models/PostModel";
-import { setLoading } from "./stateActions";
+import {PostModel} from "models/PostModel";
 
 
 
@@ -29,13 +28,17 @@ export const setPosts = (): ThunkAction<void, RootState, null, PostActionsTypes>
             console.log(error);
             setLoading(false);
         }
+        finally {
+            setLoadingPost(false);
+        }
     }
 }
 
 export const setUserPosts = (id: number): ThunkAction<void, RootState, null, PostActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
+        dispatch(setLoadingPost(true));
         try{
-            await axios.get(`./users/${id}/posts`, {
+            axios.get(`./users/${id}/posts`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -45,21 +48,19 @@ export const setUserPosts = (id: number): ThunkAction<void, RootState, null, Pos
                     type: SET_POSTS,
                     payload: response.data as PostModel[]
                 })
-                dispatch(setLoading(false));
             }).catch(error => console.log(error))
         }
         catch (error: any) {
             console.log(error);
-            setLoading(false);
         }
     }
 }
 
 export const deletePost = (id: number): ThunkAction<void, RootState, null, PostActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
+        dispatch(setLoadingPost(true));
         try{
-            dispatch(setLoading(true));
-            await axios.delete(`/posts/${id}`, {
+            axios.delete(`/posts/${id}`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -68,20 +69,21 @@ export const deletePost = (id: number): ThunkAction<void, RootState, null, PostA
                     type: DELETE_POST,
                     payload: id
                 })
-                dispatch(setLoading(false))
             }).catch(error => console.log(error))
         }
         catch (error: any) {
             console.log(error);
-            setLoading(false);
+        }
+        finally {
+            setLoadingPost(false);
         }
     }
 }
 
 export const likePost = (post: PostModel): ThunkAction<void, RootState, null, PostActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
         try{
-            await axios.head(`/posts/${post.id}/like`, {
+            axios.head(`/posts/${post.id}/like`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -97,6 +99,20 @@ export const likePost = (post: PostModel): ThunkAction<void, RootState, null, Po
         catch (error: any) {
             console.log(error);
             setLoading(false);
+        }
+    }
+}
+
+export const setLoadingPost = (loadingValue: boolean): ThunkAction<void, RootState, null, PostActionsTypes> => {
+    return dispatch => {
+        try{
+            dispatch({
+                type: SET_LOADING,
+                payload: loadingValue
+            });
+        }
+        catch (error: any) {
+            console.log(error);
         }
     }
 }

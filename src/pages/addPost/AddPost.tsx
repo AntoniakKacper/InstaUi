@@ -1,22 +1,19 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {Dropzone} from "../../components/Dropzone";
-import { useState, useEffect } from 'react';
 import StepLabel from '@mui/material/StepLabel';
 import {PostForm} from "./PostForm";
 import {AddPostModel} from 'models/PostModel';
-import {Modal} from "../../components/Modal";
 import axios from "../../utils/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {setLoading} from "../../store/actions/stateActions";
-import CircularProgress from "@mui/material/CircularProgress";
+import {setLoadingPost} from "../../store/actions/postAction";
 
 
 interface AddPostProps {
@@ -30,10 +27,10 @@ const steps = ['Add image', 'Create post'];
 export const AddPost: React.FC<AddPostProps> = ({}) => {
 
     const { user } = useSelector((state: RootState) => state.auth);
-    const { loading } = useSelector((state: RootState) => state.stateRed);
     const [file, setFile] = useState<Blob | null>(null);
     const [activeStep, setActiveStep] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+
     const [post, setPost] = useState<AddPostModel>({
         photo: null,
         description: '',
@@ -41,25 +38,75 @@ export const AddPost: React.FC<AddPostProps> = ({}) => {
     });
     const action = useDispatch();
     const navigate = useNavigate();
+    const {state} = useLocation();
+
+    // const fetchData = async () => {
+    //     let img_url = '';
+    //
+    //     await axios.get(`./posts/${state.id}`, {
+    //         headers: {
+    //             Accept: "application/json",
+    //         },
+    //     })
+    //         .then((response) => {
+    //             const post = response.data.data;
+    //             console.log(post);
+    //             img_url = post.img_url;
+    //             setPost(
+    //                 {
+    //                     ...post,
+    //                     description: post.description,
+    //                     tags: post.tags
+    //                 }
+    //             );
+    //         }).catch((error) => console.log(error))
+    //
+    //     await axios.get(`./posts/${state.id}/photo`, {
+    //         headers: {
+    //             Accept: "application/json",
+    //         },
+    //     })
+    //         .then((response) => {
+    //             //const post = response.data.data;
+    //             console.log(response.data);
+    //             console.log(new Blob([response.data]));
+    //             // img_url = post.img_url;
+    //             setPost(
+    //                 {
+    //                     ...post,
+    //                     photo:new Blob([response.data])
+    //                 }
+    //             );
+    //         }).catch((error) => console.log(error))
+    //     console.log(img_url);
+    //
+    // }
+    //
+    // useEffect(() => {
+    //     if(isEditMode){
+    //         fetchData();
+    //     }
+    // }, []);
+
 
     useEffect(() => {
 
     }, [file]);
 
     const handleOpen = () => {
+        //Okienko do otwierania edytora
         setIsOpen(true);
     }
 
 
 
 
+
     const stepsElements = [
         {
-             htmlElement: !file ? <Dropzone setFile={setFile}/> : <img src={URL.createObjectURL(file)} alt="post photo" onClick={handleOpen} className="add-post__image"/>
-            //htmlElement: !file && <Dropzone setFile={setFile}/>
+             htmlElement: !file ? <Dropzone setFile={setFile}/> : <img src={URL.createObjectURL(file)} alt="post" onClick={handleOpen} className="add-post__image"/>
         },
         {
-            //htmlElement: <TuiImageEditor file={file}/>
             htmlElement: <PostForm setPost={setPost} post={post} file={file}/>
         }
     ]
@@ -79,7 +126,7 @@ export const AddPost: React.FC<AddPostProps> = ({}) => {
     }
 
     const handleAddPost = async () => {
-        action(setLoading(true));
+        action(setLoadingPost(true));
         const fData = new FormData();
         post.photo && fData.append('photo', post.photo);
         post.description && fData.append('description', post.description);
@@ -95,12 +142,8 @@ export const AddPost: React.FC<AddPostProps> = ({}) => {
         ).then((res) => {
             console.log(res.data);
             navigate(`/profile/${user!.id}`);
-            action(setLoading(false));
+            action(setLoadingPost(false));
         }).catch((error) => console.log(error))
-    }
-
-    if(loading){
-        return (<div className="add-post__loading"><CircularProgress size={40} /></div>)
     }
 
     return (
@@ -131,6 +174,8 @@ export const AddPost: React.FC<AddPostProps> = ({}) => {
                 </React.Fragment>
             ) : (
                 <React.Fragment>
+                    {/*{post.photo && <img src={URL.createObjectURL(post.photo)} alt="post" />}*/}
+                    {/*{isEditMode && post.photo ? <img src={URL.createObjectURL(post.photo)} alt="post" /> : stepsElements[activeStep].htmlElement}*/}
                     {stepsElements[activeStep].htmlElement}
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import "App.scss";
 
@@ -18,9 +18,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
           <Link to="/home" className="insta-logo">Instakilogram</Link>
 
           <div className="nav-icons">
-            <i className="far fa-paper-plane"/>
             <Link to="/addPost"><i className="far fa-plus-square"/></Link>
-            <i className="far fa-heart"/>
+            {/*<i className="far fa-heart"/>*/}
 
           </div>
         </div>

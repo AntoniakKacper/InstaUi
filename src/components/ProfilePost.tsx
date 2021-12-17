@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {PostModel} from "../models/PostModel";
 import {PostDialog} from "./PostDialog";
 import {Modal} from "./Modal";
+import { useSelector } from 'react-redux';
+import {RootState} from "../store";
 
 interface ProfilePostProps {
     post: PostModel
@@ -9,6 +11,7 @@ interface ProfilePostProps {
 
 const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
     const [open, setOpen] = useState(false);
+    const { user } = useSelector((state: RootState) => state.userReducer);
 
     const toggle = () => {
         setOpen(!open);
@@ -32,7 +35,7 @@ const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
                 </div>
             </div>
         </div>
-            <Modal children={<PostDialog post={post} />} open={open} setOpen={setOpen}/>
+            <Modal children={<PostDialog post={post} user={user!} />} open={open} setOpen={setOpen}/>
         </div>
     );
 };

@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import postReducer from './reducers/postReducer';
-import stateReducer from './reducers/stateReducer';
 import authReducer from './reducers/authReducer';
 import { persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -16,7 +15,6 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    stateRed: stateReducer,
     posts: postReducer,
     auth: authReducer,
     userReducer: userReducer

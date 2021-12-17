@@ -1,15 +1,14 @@
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../index";
-import {FOLLOW_USER, GET_USER_BY_ID, UserActionTypes} from "../types/types";
+import {FOLLOW_USER, GET_USER_BY_ID, SET_LOADING, UserActionTypes} from "../types/types";
 import axios from "utils/axiosInstance";
 import {User} from "../../models/UserModel";
-import {setLoading} from "./stateActions";
 
 export const getUserById = (id: number): ThunkAction<void, RootState, null, UserActionTypes> => {
-    return async dispatch => {
+    return dispatch => {
+        dispatch(setLoadingUser(true));
         try{
-            dispatch(setLoading(true));
-            await axios.get(`./users/${id}`, {
+            axios.get(`./users/${id}`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -39,6 +38,20 @@ export const followUser = (user: User): ThunkAction<void, RootState, null, UserA
                 })
             }).catch((error) => console.log(error))
         } catch (error: any) {
+            console.log(error);
+        }
+    }
+}
+
+export const setLoadingUser = (loadingValue: boolean): ThunkAction<void, RootState, null, UserActionTypes> => {
+    return dispatch => {
+        try{
+            dispatch({
+                type: SET_LOADING,
+                payload: loadingValue
+            });
+        }
+        catch (error: any) {
             console.log(error);
         }
     }

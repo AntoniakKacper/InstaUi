@@ -9,7 +9,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {RootState} from "../../store";
-import {setUserPosts} from "../../store/actions/postAction";
 import {PostModel} from 'models/PostModel';
 import ProfilePost from "../../components/ProfilePost";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -70,8 +69,8 @@ export const Profile: React.FC<ProfileProps> = () => {
 
     const handleFollowOpen = (passedPath: Path) =>{
         if( user &&
-            (user.followers_count > 0 && passedPath === 'followers'
-            || user.followed_count > 0 && passedPath === 'followed')){
+            ((user.followers_count > 0 && passedPath === 'followers')
+            || (user.followed_count > 0 && passedPath === 'followed'))){
             setPath(passedPath);
             setFollowOpen(true);
         }
@@ -109,7 +108,7 @@ export const Profile: React.FC<ProfileProps> = () => {
     }
 
 
-    if(loading){
+    if(userLoading){
         return <div className="home-wrapper">
             <CircularProgress size={40} />
         </div>
@@ -122,17 +121,22 @@ export const Profile: React.FC<ProfileProps> = () => {
             src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"
             sx={{ width: 70, height: 70 }}
         />
-        <div className="profile-statistics">
-            <p className="profile-statistics-number">{user?.posts_count}</p>
-            <p>Posts</p>
-        </div>
-        <div className="profile-statistics" onClick={() => handleFollowOpen('followers')}>
-            <p className="profile-statistics-number">{user?.followers_count}</p>
-            <p>Followers</p>
-        </div>
-        <div className="profile-statistics" onClick={() => handleFollowOpen('followed')}>
-            <p className="profile-statistics-number">{user?.followed_count}</p>
-            <p>Following</p>
+        <div className="profile-header-right">
+            {user && <p>{user!.name}</p>}
+            <div className="profile-statistics-container">
+                <div className="profile-statistics">
+                    <p className="profile-statistics-number">{user?.posts_count}</p>
+                    <p>Posts</p>
+                </div>
+                <div className="profile-statistics" onClick={() => handleFollowOpen('followers')}>
+                    <p className="profile-statistics-number">{user?.followers_count}</p>
+                    <p>Followers</p>
+                </div>
+                <div className="profile-statistics" onClick={() => handleFollowOpen('followed')}>
+                    <p className="profile-statistics-number">{user?.followed_count}</p>
+                    <p>Following</p>
+                </div>
+            </div>
         </div>
     </div>
        <div className="profile-buttons">
@@ -144,7 +148,7 @@ export const Profile: React.FC<ProfileProps> = () => {
            )}
        </div>
         <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
-        <Modal open={openEditProfile} setOpen={setOpenEditProfile} children={<EditProfile />}/>
+        <Modal open={openEditProfile} setOpen={setOpenEditProfile} children={<EditProfile setOpen={setOpenEditProfile} />}/>
        {user &&
            <Modal open={followOpen} setOpen={setFollowOpen} scrollType='paper'
                   children={<FollowListDialog id={user.id} path={path} setOpen={setFollowOpen} />}

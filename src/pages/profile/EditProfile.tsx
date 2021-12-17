@@ -1,26 +1,34 @@
-import React from 'react';
-import {TextInput} from "../../components/TextInput";
+import React, {ChangeEvent, useState} from 'react';
 import Button from "@mui/material/Button";
-import {FormProvider, useForm} from "react-hook-form";
-import {signUpData} from "../../models/Authentication";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {signUpSchema} from "../auth/ValidationSchema";
 import Avatar from '@mui/material/Avatar';
-import {useSelector} from "react-redux";
-import { RootState} from "store";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "store";
+import {changeUsername, setAvatar} from "../../store/actions/authActions";
+import {TextField} from "@mui/material";
 
 interface EditProfileProps {
 
 }
 
-export const EditProfile: React.FC<EditProfileProps> = () => {
-    const { user } = useSelector((state: RootState) => state.auth)
-    const methods = useForm<signUpData>({
-        resolver: yupResolver(signUpSchema),
-    });
-    const onSubmit = (data: signUpData) => {
-        console.log(data);
+export const EditProfile: React.FC<EditProfileProps> = ({setOpen}) => {
+    const action = useDispatch();
+    const {user} = useSelector((state: RootState) => state.auth);
+    const [username, setUsername] = useState("");
+
+    const handleSubmit = (event: React.FormEvent) => {
+        action(changeUsername(username));
+        setOpen(false);
+        event.preventDefault();
     };
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setUsername(event.target.value);
+    }
+
+    const changeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+        event.target.files && (action(setAvatar(event.target.files[0])));
+        //TODO kompresja avatara
+    }
   return (
    <div className="edit-profile">
     <h1>Edit profile</h1>
@@ -28,23 +36,22 @@ export const EditProfile: React.FC<EditProfileProps> = () => {
            <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80" sx={{ width: 56, height: 56 }}/>
            <div className="edit-profile__user-info">
                <p className="edit-profile__username">{user?.name}</p>
-               <p className="edit-profile__clickable-text">Change avatar</p>
+               <label className="edit-profile__clickable-text">
+                   <input type="file" accept="image/png, image/jpeg" onChange={changeAvatar}/>
+                   Change avatar
+               </label>
            </div>
        </div>
        <section>
-           <FormProvider {...methods}>
                <form
-                   onSubmit={methods.handleSubmit(onSubmit)}
+                   onSubmit={handleSubmit}
                    className="reset__form"
                >
-
-                   <TextInput label="Username" name="username" placeholder={user!.name} type="text" variant="outlined" />
-                   <TextInput label="Email address" name="email" placeholder={user!.email} type="email" variant="outlined" />
+                   <TextField label="Username" name="username" placeholder={user!.name} type="text" variant="outlined" onChange={handleChange}/>
                    <Button type="submit" variant="contained">
-                       Edit
+                       Edit username
                    </Button>
                </form>
-           </FormProvider>
        </section>
    </div>
   );

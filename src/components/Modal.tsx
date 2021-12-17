@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
-import React, { Dispatch, SetStateAction, FC} from 'react';
-import ReactDOM from "react-dom";
+import React, {Dispatch, FC, SetStateAction} from 'react';
+import {createPortal} from "react-dom";
 import "App.scss";
 
 
@@ -15,7 +15,7 @@ export const Modal: FC<ModalProps> = ({ open, setOpen, children, scrollType}) =>
     const handleClose = () => {
         setOpen(false);
     };
-    return ReactDOM.createPortal((
+    return createPortal((
       <Dialog
           open={open}
           onClose={handleClose}

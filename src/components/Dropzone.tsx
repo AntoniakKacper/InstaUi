@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react'
+import React from 'react'
 import {useDropzone} from 'react-dropzone'
 import Button from '@mui/material/Button';
 
@@ -8,18 +8,14 @@ interface DropzoneProps {
 
 
 export const Dropzone: React.FC<DropzoneProps> = ({setFile}) => {
-    //const [file, setFile] = useState("");
     const onDrop = (acceptedFiles: File[]) => {
         acceptedFiles.forEach((file) => {
             console.log(file)
-            //setFile(URL.createObjectURL(file));
             setFile(file);
         });
     };
 
     const {
-        open,
-        acceptedFiles,
         getRootProps,
         getInputProps,
         isDragActive,
@@ -36,9 +32,6 @@ export const Dropzone: React.FC<DropzoneProps> = ({setFile}) => {
             return 'icon--drag-accept';
         }
     }
-
-
-
 
     return (
             <div {...getRootProps()} className="dropzone">

@@ -1,4 +1,4 @@
-import React, {FC, MouseEvent, useState, useRef} from 'react';
+import React, {FC, MouseEvent, useState} from 'react';
 import {PostModel} from "../models/PostModel";
 import Avatar from "@mui/material/Avatar";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -6,17 +6,19 @@ import {IconButton} from "@mui/material";
 import 'App.scss';
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../store";
+import {useDispatch} from "react-redux";
 import {deletePost, likePost} from "../store/actions/postAction";
+import {User} from "../models/UserModel";
 import {Link} from "react-router-dom";
 
 interface PostDialogProps {
  post: PostModel;
+ user: User;
 }
 
 
-export const PostDialog: FC<PostDialogProps> = ({post }) => {
+export const PostDialog: FC<PostDialogProps> = ({post, user }) => {
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [show, setShow] = useState(false);
     const [like, setLike] = useState(post.isLiked);
@@ -47,7 +49,13 @@ export const PostDialog: FC<PostDialogProps> = ({post }) => {
         handleCloseMenu();
     }
 
-    const { id, author, description, min_img_url, likes_count } = post;
+    const handleOpen = () => {
+        console.log("OPEN");
+    }
+
+    //TODO dodawanie komentarzy
+
+    const { id, author, description, min_img_url, likes_count, img_url } = post;
     return (
         <div className="post-dialog">
         <div className="post-dialog__header">
@@ -62,7 +70,7 @@ export const PostDialog: FC<PostDialogProps> = ({post }) => {
         </div>
 
 
-        <img className="post-dialog__image" src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"/>
+        <img className="post-dialog__image" src={img_url} alt={user.name} />
         <section className="post-dialog__content">
             <div className="post-dialog__buttons">
                 {like ? <i className="fas fa-fire post-dialog__icon-filled" onClick={toggleLike}/> : <i className="fas fa-fire" onClick={toggleLike} />}
@@ -89,8 +97,9 @@ export const PostDialog: FC<PostDialogProps> = ({post }) => {
                 "aria-labelledby": "basic-button",
             }}
         >
-            {user && user.id === post.author_id && <MenuItem onClick={handleDelete}>Usuń</MenuItem>}
-            <MenuItem onClick={handleCloseMenu}>Anuluj</MenuItem>
+            {user && user.id === post.author_id && <MenuItem onClick={handleDelete}>Delete</MenuItem>}
+            {user && user.id === post.author_id && <Link to={`/editPost`} state={{id: post.id}}><MenuItem>Edit</MenuItem></Link>}
+            <MenuItem onClick={handleCloseMenu}>Cancel</MenuItem>
         </Menu>
         </div>
     );

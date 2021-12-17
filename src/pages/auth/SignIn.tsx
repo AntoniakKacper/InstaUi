@@ -19,7 +19,7 @@ import LoginGithub from 'react-login-github';
 interface SignInProps {}
 
 export const SignIn: React.FC<SignInProps> = () => {
-  const { loading } = useSelector((state: RootState) => state.stateRed);
+    const {authLoading} = useSelector((state:RootState) => state.auth);
   const action = useDispatch();
   const methods = useForm<signInData>({
     resolver: yupResolver(signInSchema),
@@ -42,7 +42,7 @@ export const SignIn: React.FC<SignInProps> = () => {
   const onFailure = (response: any) => console.error(response);
 
   return (
-    <div className="wrapper">
+    <div className="auth__wrapper">
       <div className="auth__header">
         <h1>Log in</h1>
         <p>Sign up with one of following options.</p>
@@ -85,7 +85,7 @@ export const SignIn: React.FC<SignInProps> = () => {
             variant="outlined"
           />
           <PasswordInput label="Password" name="password" variant="outlined" />
-          {loading ? (
+          {authLoading ? (
             <Button variant="outlined" color="primary" disabled>
                 Loading...
             </Button>

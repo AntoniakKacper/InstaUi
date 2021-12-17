@@ -20,6 +20,7 @@ export default (state = initialState, action: PostActionsTypes) => {
             return {
                 ...state,
                 posts: state.posts!.filter(post => post.id !== action.payload),
+                postLoading: false,
             }
         case LIKE_POST:
             return {

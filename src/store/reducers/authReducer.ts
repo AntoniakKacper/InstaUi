@@ -6,6 +6,7 @@ const initialState: AuthState = {
     user: null,
     authenticated: false,
     token: '',
+    authLoading: false
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -28,6 +29,22 @@ export default (state = initialState, action: AuthActionsTypes) => {
         case SIGN_IN_SOCIAL:
             return {
                 ...state
+            }
+        case SET_AVATAR:
+            return {
+                ...state,
+                user: state.user && {
+                    ...state.user,
+                    avatar_url: action.payload,
+                },
+            }
+        case SET_NAME:
+            return {
+                ...state,
+                user: state.user && {
+                    ...state.user,
+                    name: action.payload,
+                },
             }
         default:
             return state;
