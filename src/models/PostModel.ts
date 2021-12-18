@@ -24,5 +24,5 @@ export interface PostState {
 export interface AddPostModel{
     description: string,
     tags: string,
-    photo: Blob | null;
+    photo: File | null;
 }

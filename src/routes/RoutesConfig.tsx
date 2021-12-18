@@ -84,7 +84,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
 
         </Routes>
       </div>
-        {authenticated && <BottomNavbar avatar={user!.avatar_url} username={user!.name}/>}
+        {authenticated && <BottomNavbar />}
     </Router>
   );
 };

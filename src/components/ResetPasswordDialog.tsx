@@ -30,7 +30,7 @@ export const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = () => {
            <FormProvider {...methods}>
                <form
                    onSubmit={methods.handleSubmit(onSubmit)}
-                   className="reset__form"
+                   className="reset__form reset__form--edit-password"
                >
 
                    <PasswordInput label="New password" name="password" variant="outlined" />

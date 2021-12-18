@@ -16,11 +16,10 @@ interface ListOfButtonTypes {
 }
 
 interface BottomNavbarProps {
-    avatar: string;
-    username: string;
+
 }
 
-export const BottomNavbar: React.FC<BottomNavbarProps> = ({avatar, username}) => {
+export const BottomNavbar: React.FC<BottomNavbarProps> = () => {
     const [value, setValue] = React.useState("home");
     const { user } = useSelector((state: RootState) => state.auth)
     const ListOfButtons: ListOfButtonTypes[] = [
@@ -35,8 +34,8 @@ export const BottomNavbar: React.FC<BottomNavbarProps> = ({avatar, username}) =>
         {
             value: `profile/${user!.id}`,
             icon:<Avatar
-                alt={username}
-                src={avatar}
+                alt={user!.name}
+                src={user!.avatar_url}
                 sx={{ width: 24, height: 24 }}
             />
         }

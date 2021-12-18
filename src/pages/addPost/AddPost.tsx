@@ -24,13 +24,13 @@ interface AddPostProps {
 const steps = ['Add image', 'Create post'];
 
 
-export const AddPost: React.FC<AddPostProps> = ({}) => {
-
+export const AddPost: React.FC<AddPostProps> = ({isEditMode}) => {
     const { user } = useSelector((state: RootState) => state.auth);
-    const [file, setFile] = useState<Blob | null>(null);
+    const { userLoading } = useSelector((state: RootState) => state.userReducer);
+
+    const [file, setFile] = useState<File | null>(null);
     const [activeStep, setActiveStep] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
-
     const [post, setPost] = useState<AddPostModel>({
         photo: null,
         description: '',
@@ -39,55 +39,6 @@ export const AddPost: React.FC<AddPostProps> = ({}) => {
     const action = useDispatch();
     const navigate = useNavigate();
     const {state} = useLocation();
-
-    // const fetchData = async () => {
-    //     let img_url = '';
-    //
-    //     await axios.get(`./posts/${state.id}`, {
-    //         headers: {
-    //             Accept: "application/json",
-    //         },
-    //     })
-    //         .then((response) => {
-    //             const post = response.data.data;
-    //             console.log(post);
-    //             img_url = post.img_url;
-    //             setPost(
-    //                 {
-    //                     ...post,
-    //                     description: post.description,
-    //                     tags: post.tags
-    //                 }
-    //             );
-    //         }).catch((error) => console.log(error))
-    //
-    //     await axios.get(`./posts/${state.id}/photo`, {
-    //         headers: {
-    //             Accept: "application/json",
-    //         },
-    //     })
-    //         .then((response) => {
-    //             //const post = response.data.data;
-    //             console.log(response.data);
-    //             console.log(new Blob([response.data]));
-    //             // img_url = post.img_url;
-    //             setPost(
-    //                 {
-    //                     ...post,
-    //                     photo:new Blob([response.data])
-    //                 }
-    //             );
-    //         }).catch((error) => console.log(error))
-    //     console.log(img_url);
-    //
-    // }
-    //
-    // useEffect(() => {
-    //     if(isEditMode){
-    //         fetchData();
-    //     }
-    // }, []);
-
 
     useEffect(() => {
 
@@ -126,24 +77,38 @@ export const AddPost: React.FC<AddPostProps> = ({}) => {
     }
 
     const handleAddPost = async () => {
-        action(setLoadingPost(true));
+        action(setLoadingUser(true));
         const fData = new FormData();
-        post.photo && fData.append('photo', post.photo);
-        post.description && fData.append('description', post.description);
-        post.tags && fData.append('tags', post.tags);
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        }
+        file && imageCompression(file, options)
+            .then((compressedFile) => {
+                console.log(compressedFile);
+                fData.append('photo', compressedFile);
+                post.description && fData.append('description', post.description);
+                post.tags && fData.append('tags', post.tags);
 
-        await axios.post(`./posts`,
-            fData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-        ).then((res) => {
-            console.log(res.data);
-            navigate(`/profile/${user!.id}`);
-            action(setLoadingPost(false));
-        }).catch((error) => console.log(error))
+                axios.post(`./posts`,
+                    fData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then((res) => {
+                    console.log(res.data);
+                    navigate(`/profile/${user!.id}`);
+                    action(setLoadingUser(false));
+                }).catch((error) => console.log(error))
+            }).catch((error) => console.log(error))
+        console.log(post.photo);
+    }
+
+    if(userLoading){
+        return <CircularProgress size={40} />
     }
 
     return (

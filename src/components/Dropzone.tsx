@@ -3,7 +3,7 @@ import {useDropzone} from 'react-dropzone'
 import Button from '@mui/material/Button';
 
 interface DropzoneProps {
-    setFile: React.Dispatch<React.SetStateAction<Blob | null>>;
+    setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
 

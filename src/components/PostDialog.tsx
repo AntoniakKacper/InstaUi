@@ -70,7 +70,7 @@ export const PostDialog: FC<PostDialogProps> = ({post, user }) => {
         </div>
 
 
-        <img className="post-dialog__image" src={img_url} alt={user.name} />
+        <img src={img_url} alt={user.name} />
         <section className="post-dialog__content">
             <div className="post-dialog__buttons">
                 {like ? <i className="fas fa-fire post-dialog__icon-filled" onClick={toggleLike}/> : <i className="fas fa-fire" onClick={toggleLike} />}

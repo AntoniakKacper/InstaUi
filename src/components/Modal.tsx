@@ -9,9 +9,11 @@ interface ModalProps {
     setOpen:  Dispatch<SetStateAction<boolean>>;
     children: JSX.Element;
     scrollType?: "paper" | "body";
+    maxWidth?: "xl" | "md" | "sm" | "xs" | "lg" | false;
+    fullWidth?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ open, setOpen, children, scrollType}) => {
+export const Modal: FC<ModalProps> = ({ open, setOpen, children, scrollType, maxWidth, fullWidth}) => {
     const handleClose = () => {
         setOpen(false);
     };
@@ -21,6 +23,8 @@ export const Modal: FC<ModalProps> = ({ open, setOpen, children, scrollType}) =>
           onClose={handleClose}
           scroll={scrollType ? scrollType : "body"}
           className="modal"
+          maxWidth={maxWidth}
+          fullWidth={fullWidth}
       >
           {children}
       </Dialog>

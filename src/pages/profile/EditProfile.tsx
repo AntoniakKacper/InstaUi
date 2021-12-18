@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "store";
 import {changeUsername, setAvatar} from "../../store/actions/authActions";
 import {TextField} from "@mui/material";
+import imageCompression from 'browser-image-compression';
 
 interface EditProfileProps {
 
@@ -26,8 +27,14 @@ export const EditProfile: React.FC<EditProfileProps> = ({setOpen}) => {
     }
 
     const changeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
-        event.target.files && (action(setAvatar(event.target.files[0])));
-        //TODO kompresja avatara
+        const options = {
+            maxWidthOrHeight: 100,
+            useWebWorker: true
+        }
+        event.target.files && imageCompression(event.target.files[0], options).then((compressedFile) => {
+            event.target.files && (action(setAvatar(compressedFile)));
+        }).catch((error) => console.log(error))
+
     }
   return (
    <div className="edit-profile">
@@ -45,7 +52,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({setOpen}) => {
        <section>
                <form
                    onSubmit={handleSubmit}
-                   className="reset__form"
+                   className="reset__form reset__form--edit-profile"
                >
                    <TextField label="Username" name="username" placeholder={user!.name} type="text" variant="outlined" onChange={handleChange}/>
                    <Button type="submit" variant="contained">

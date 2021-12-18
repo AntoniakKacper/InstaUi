@@ -93,7 +93,7 @@ export const Post: React.FC<PostProps> = ({
           <p className="post-creation-date">2 GODZ. TEMU</p>
         </div>
       </div>
-      <Modal open={openPost} setOpen={setOpenPost} children={<PostDialog post={post} user={post.author} />} />
+      <Modal open={openPost} setOpen={setOpenPost} fullWidth={true} maxWidth="sm" children={<PostDialog post={post} user={post.author}/>} />
     </div>
   );
 };

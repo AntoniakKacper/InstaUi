@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar';
 interface PostFormProps {
     setPost: React.Dispatch<React.SetStateAction<AddPostModel>>;
     post: AddPostModel;
-    file: Blob | null;
+    file: File | null;
 }
 
 export const PostForm: React.FC<PostFormProps> = ({setPost, post, file}) => {

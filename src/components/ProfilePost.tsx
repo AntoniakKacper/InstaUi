@@ -35,7 +35,7 @@ const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
                 </div>
             </div>
         </div>
-            <Modal children={<PostDialog post={post} user={user!} />} open={open} setOpen={setOpen}/>
+            <Modal children={<PostDialog post={post} user={user!} />} open={open} setOpen={setOpen} fullWidth={true} maxWidth="sm"/>
         </div>
     );
 };
