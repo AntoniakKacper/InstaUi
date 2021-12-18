@@ -14,7 +14,8 @@ export const SET_POSTS = "SET_POSTS";
 export const DELETE_POST = "DELETE_POST";
 export const LIKE_POST = "LIKE_POST";
 export const ADD_COMMENT = "ADD_COMMENT";
-export const DELETE_COMMENT = "DELETE_COMMENT";
+export const DELETE_POST_COMMENT = "DELETE_POST_COMMENT";
+export const DELETE_USER_COMMENT = "DELETE_USER_COMMENT";
 
 export const SET_LOADING = "SET_LOADING";
 
@@ -65,7 +66,11 @@ interface SetNameAction {
 
 interface SetPostsAction {
     type: typeof SET_POSTS,
-    payload: PostModel[]
+    payload: {
+        posts: PostModel[],
+        currentPage: number,
+        hasNextPage: boolean,
+    }
 }
 
 interface DeletePostAction {
@@ -83,8 +88,13 @@ interface AddCommentAction{
     payload: PostModel
 }
 
-interface DeleteCommentAction{
-    type: typeof DELETE_COMMENT,
+interface DeletePostCommentAction{
+    type: typeof DELETE_POST_COMMENT,
+    payload: PostModel
+}
+
+interface DeleteUserCommentAction{
+    type: typeof DELETE_USER_COMMENT,
     payload: PostModel
 }
 
@@ -99,6 +109,6 @@ interface SetLoadingAction {
 
 export type AuthActionsTypes = SetUserAction | SignOutAction | SignInSocialAction | SetLoadingAction | SetAvatarAction | SetNameAction;
 
-export type  UserActionTypes = GetUserByIdAction | FollowUserAction | SetLoadingAction | SetAvatarAction | SetNameAction;
+export type  UserActionTypes = GetUserByIdAction | FollowUserAction | SetLoadingAction | SetAvatarAction | SetNameAction | DeleteUserCommentAction;
 
-export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction | SetLoadingAction | AddCommentAction | DeleteCommentAction;
+export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction | SetLoadingAction | AddCommentAction | DeletePostCommentAction;

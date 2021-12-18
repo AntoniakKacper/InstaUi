@@ -40,6 +40,7 @@ const TabPanel = (props: TabPanelProps) => {
     );
 }
 export const Search: React.FC<SearchProps> = () => {
+    //TODO okroić wyświetlanego posta i naprawic autora posta
 
     const [value, setValue] = useState(0);
     const [posts, setPosts] = useState<PostModel[] | null>(null);

@@ -4,19 +4,26 @@ import {PostModel} from "models/PostModel";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "store";
-import {setPosts} from "store/actions/postAction";
+import {setLoadingPost, setPosts} from "store/actions/postAction";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from '@mui/material/Button';
 
 interface HomeProps {}
 
 export const Home: React.FC<HomeProps> = ({}) => {
-  const { posts } = useSelector((state: RootState) => state.posts);
-  const { loading } = useSelector((state: RootState) => state.stateRed);
   const action = useDispatch();
+  const { posts, postLoading, hasNextPage, currentPage } = useSelector((state: RootState) => state.posts);
 
   useEffect(() => {
-    action(setPosts());
-  }, [action]);
+    action(setLoadingPost(true));
+    action(setPosts(1, []));
+  }, []);
+
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    hasNextPage && action(setPosts(currentPage+1, posts!));
+  }
 
   if (postLoading) {
     return (
@@ -25,6 +32,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
       </div>
     );
   }
+
   return (
     <div className="home-wrapper">
       {posts &&
@@ -34,6 +42,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
             post={post}
           />
         ))}
+      {hasNextPage && <Button onClick={handleClick}>Load more posts...</Button>}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import {yupResolver} from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import "App.scss";
 import {PasswordInput} from "components/PasswordInput";
 import {TextInput} from "components/TextInput";
@@ -24,11 +23,8 @@ export const SignIn: React.FC<SignInProps> = () => {
   const methods = useForm<signInData>({
     resolver: yupResolver(signInSchema),
   });
-  //const loading = true;
   const onSubmit = (data: signInData) => {
-    //action(setLoading(true));
     action(signIn(data));
-    //action(setLoading(false));
   };
 
   const responseGoogle = (response: any) => {

@@ -1,7 +1,7 @@
 import {
     ADD_COMMENT,
-    DELETE_COMMENT,
     DELETE_POST,
+    DELETE_POST_COMMENT,
     LIKE_POST,
     PostActionsTypes,
     SET_LOADING,
@@ -11,55 +11,41 @@ import {RootState} from "store";
 import {ThunkAction} from "redux-thunk";
 import axios from "utils/axiosInstance";
 import {PostModel} from "models/PostModel";
+import {Comment} from "../../models/CommentModel";
 
 
-
-export const setPosts = (): ThunkAction<void, RootState, null, PostActionsTypes> => {
-    return async dispatch => {
-        try{
-            dispatch(setLoading(true));
-            await axios.get("./posts", {
+export const setPosts = (page: number, passedPosts: PostModel[]): ThunkAction<void, RootState, null, PostActionsTypes> => {
+    return dispatch => {
+        try{axios.get("./posts", {
+                params: {
+                    page
+                },
                 headers: {
                   Accept: "application/json",
                 },
               }).then((res)  => {
-                  const response = res.data
-                  console.log(response);
+                  const posts = [...passedPosts, ...res.data.data.data];
+                  const hasNextPage = Boolean(res.data.data.next_page_url);
+                  const currentPage = res.data.data.current_page;
+                  console.log(hasNextPage);
+
+                  console.log(res.data.data.next_page_url);
+                  console.log(res.data.data);
                   dispatch({
                       type: SET_POSTS,
-                      payload: response.data as PostModel[]
+                      payload: {
+                          posts,
+                          currentPage,
+                          hasNextPage,
+                      }
                   })
               }).catch((error) => console.log(error));
-            dispatch(setLoading(false))
         }
         catch (error: any) {
             console.log(error);
-            setLoading(false);
         }
         finally {
             setLoadingPost(false);
-        }
-    }
-}
-
-export const setUserPosts = (id: number): ThunkAction<void, RootState, null, PostActionsTypes> => {
-    return dispatch => {
-        dispatch(setLoadingPost(true));
-        try{
-            axios.get(`./users/${id}/posts`, {
-                headers: {
-                    Accept: "application/json",
-                },
-            }).then((res)  => {
-                const response = res.data
-                dispatch({
-                    type: SET_POSTS,
-                    payload: response.data as PostModel[]
-                })
-            }).catch(error => console.log(error))
-        }
-        catch (error: any) {
-            console.log(error);
         }
     }
 }
@@ -106,7 +92,6 @@ export const likePost = (post: PostModel): ThunkAction<void, RootState, null, Po
         }
         catch (error: any) {
             console.log(error);
-            setLoading(false);
         }
     }
 }
@@ -136,15 +121,17 @@ export const addComment = (comment: string, post: PostModel, setLoading: React.D
     }
 }
 
-export const deleteComment = (post: PostModel, comment: Comment): ThunkAction<void, RootState, null, PostActionsTypes> => {
+export const deletePostComment = (post: PostModel, comment: Comment): ThunkAction<void, RootState, null, PostActionsTypes> => {
     return dispatch => {
         try{
+            console.log(comment.id);
             axios.delete(`./comments/${comment.id}`
             ).then((response) => {
                 console.log(response);
                 const comments = post.comments.filter((com) => com.id !== comment.id);
+                console.log(comments);
                 dispatch({
-                    type: DELETE_COMMENT,
+                    type: DELETE_POST_COMMENT,
                     payload: {
                         ...post,
                         comments

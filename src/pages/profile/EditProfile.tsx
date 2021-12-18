@@ -8,7 +8,7 @@ import {TextField} from "@mui/material";
 import imageCompression from 'browser-image-compression';
 
 interface EditProfileProps {
-
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({setOpen}) => {
@@ -40,7 +40,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({setOpen}) => {
    <div className="edit-profile">
     <h1>Edit profile</h1>
        <div className="edit-profile__header">
-           <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80" sx={{ width: 56, height: 56 }}/>
+           <Avatar alt={user!.name} src={user?.avatar_url} sx={{ width: 56, height: 56 }}/>
            <div className="edit-profile__user-info">
                <p className="edit-profile__username">{user?.name}</p>
                <label className="edit-profile__clickable-text">

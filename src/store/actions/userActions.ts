@@ -1,8 +1,17 @@
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../index";
-import {FOLLOW_USER, GET_USER_BY_ID, SET_LOADING, UserActionTypes} from "../types/types";
+import {
+    DELETE_USER_COMMENT,
+    FOLLOW_USER,
+    GET_USER_BY_ID,
+    PostActionsTypes,
+    SET_LOADING,
+    UserActionTypes
+} from "../types/types";
 import axios from "utils/axiosInstance";
 import {User} from "../../models/UserModel";
+import {PostModel} from "../../models/PostModel";
+import {Comment} from "../../models/CommentModel";
 
 export const getUserById = (id: number): ThunkAction<void, RootState, null, UserActionTypes> => {
     return dispatch => {
@@ -27,9 +36,9 @@ export const getUserById = (id: number): ThunkAction<void, RootState, null, User
 }
 
 export const followUser = (user: User): ThunkAction<void, RootState, null, UserActionTypes> => {
-    return async dispatch => {
+    return dispatch => {
         try {
-            await axios.head(`./users/${user.id}/follow`).then(() => {
+            axios.head(`./users/${user.id}/follow`).then(() => {
                 user.followers_count += user.isFollowed ? -1 : +1;
                 user.isFollowed = !user.isFollowed;
                 dispatch({
@@ -38,6 +47,28 @@ export const followUser = (user: User): ThunkAction<void, RootState, null, UserA
                 })
             }).catch((error) => console.log(error))
         } catch (error: any) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteUserComment = (post: PostModel, comment: Comment): ThunkAction<void, RootState, null, UserActionTypes> => {
+    return dispatch => {
+        try{
+            axios.delete(`./comments/${comment.id}`
+            ).then((response) => {
+                console.log(response);
+                const comments = post.comments.filter((com) => com.id !== comment.id);
+                dispatch({
+                    type: DELETE_USER_COMMENT,
+                    payload: {
+                        ...post,
+                        comments
+                    },
+                })
+            }).catch((error) => console.log(error));
+        }
+        catch (error: any) {
             console.log(error);
         }
     }

@@ -4,7 +4,7 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar: string;
+    avatar_url: string;
     isFollowed: boolean;
     posts_count: number;
     followers_count: number;

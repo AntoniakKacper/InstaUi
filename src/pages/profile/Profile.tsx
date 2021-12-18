@@ -25,33 +25,23 @@ interface ProfileProps {
 
 type Path = 'followers' | 'followed';
 
-
+// TODO paginacja postów usera
 export const Profile: React.FC<ProfileProps> = () => {
     const action = useDispatch();
     const loggedUserId = useSelector((state: RootState) => state.auth.user!.id);
-    const { user } = useSelector((state: RootState) => state.userReducer);
-    const { posts } = useSelector((state: RootState) => state.posts);
-    const { loading } = useSelector((state: RootState) => state.stateRed);
+    const { user, userLoading, posts } = useSelector((state: RootState) => state.userReducer);
     const { id } = useParams<string>();
     const [open, setOpen] = useState(false);
     const [openEditProfile, setOpenEditProfile] = useState(false);
     const [followOpen, setFollowOpen] = useState(false);
     const [path, setPath] = useState<Path>('followers');
 
-
     useEffect(() => {
-        console.log('user');
         action(getUserById(Number(id)));
     }, [id]);
 
-    useEffect(() => {
-        console.log("posts");
-        user && action(setUserPosts(user.id!));
-    }, [user])
-
     const handleClick = () => {
         action(signOut());
-        console.log("logout")
     }
 
     const handleOpen = () => {
@@ -63,7 +53,6 @@ export const Profile: React.FC<ProfileProps> = () => {
     }
 
     const handleFollow = () => {
-        console.log(user);
         user && action(followUser(user));
     }
 
@@ -117,8 +106,8 @@ export const Profile: React.FC<ProfileProps> = () => {
    <div className="profile-wrapper">
     <div className="profile-header">
         <Avatar
-            alt="Remy Sharp"
-            src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"
+            alt={user?.name}
+            src={user?.avatar_url}
             sx={{ width: 70, height: 70 }}
         />
         <div className="profile-header-right">

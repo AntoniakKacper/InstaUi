@@ -10,7 +10,7 @@ export const signUp = (data: signUpData): ThunkAction<void, RootState, null, Aut
     return dispatch => {
         dispatch(setLoadingAuth(true));
         try{
-           await axios.post('./register', data
+           axios.post('./register', data
            ).then
            ((response: any) => {
             const user = response.data.data.user;
@@ -32,10 +32,10 @@ export const signUp = (data: signUpData): ThunkAction<void, RootState, null, Aut
 }
 
 export const signIn = (data: signInData): ThunkAction<void, RootState, null, AuthActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
+        dispatch(setLoadingAuth(true));
         try{
-            //setLoading(true);
-           await axios.post('/login', data
+           axios.post('/login', data
            ).then
            ((response) => {
                console.log(response)
@@ -60,14 +60,13 @@ export const signIn = (data: signInData): ThunkAction<void, RootState, null, Aut
 }
 
 export const signOut = (): ThunkAction<void, RootState, null, AuthActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
+        dispatch(setLoadingAuth(true));
         try{
-            setLoading(true);
-            await axios.post('./logout').then(() => {
+            axios.post('./logout').then(() => {
                 dispatch({
                     type: SIGN_OUT
                 })
-                setLoading(false);
             }).catch((error) => {
                 console.log(error)
             })
@@ -79,9 +78,10 @@ export const signOut = (): ThunkAction<void, RootState, null, AuthActionsTypes> 
 }
 
 export const signInSocial = (passedToken: string, social: "google" | "github"): ThunkAction<void, RootState, null, AuthActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
+        dispatch(setLoadingAuth(true));
         try{
-            await axios.get(`./login/${social}/callback`,
+            axios.get(`./login/${social}/callback`,
                 {
                     params: {
                         token: passedToken
@@ -109,9 +109,9 @@ export const signInSocial = (passedToken: string, social: "google" | "github"): 
 
 
 export const passwordReset = (data: passwordResetData): ThunkAction<void, RootState, null, AuthActionsTypes> => {
-    return async dispatch => {
+    return dispatch => {
         try {
-            await axios.post('./password-change', data
+            axios.post('./password-change', data
             ).then
             ((response: any) => {
                 console.log(response);

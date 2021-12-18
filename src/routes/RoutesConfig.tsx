@@ -77,10 +77,19 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
                 path="/addPost"
                 element={
                     <ProtectedRoute>
-                        <AddPost />
+                        <AddPost isEditMode={false}/>
                     </ProtectedRoute>
                 }
             />
+            <Route
+                path="/editPost"
+                element={
+                    <ProtectedRoute>
+                        <AddPost isEditMode={true}/>
+                    </ProtectedRoute>
+                }
+            />
+
 
         </Routes>
       </div>

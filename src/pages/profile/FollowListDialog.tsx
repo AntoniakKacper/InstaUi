@@ -44,8 +44,8 @@ const FollowListDialog: React.FC<FollowListDialogProps> = ({id, path, setOpen}) 
 
                         <div className="follow-dialog__avatar">
                             <Link to={`/profile/${user.id}`}><Avatar
-                                alt="Remy Sharp"
-                                src="https://images.unsplash.com/photo-1622461828050-c47d16bd89ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"
+                                alt={user.name}
+                                src={user.avatar_url}
                                 sx={{ width: 30, height: 30 }}
 
                             /></Link>

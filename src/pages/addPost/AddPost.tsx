@@ -14,16 +14,20 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {setLoadingPost} from "../../store/actions/postAction";
+import imageCompression from 'browser-image-compression';
+import {setLoadingAuth} from "../../store/actions/authActions";
+import CircularProgress from "@mui/material/CircularProgress";
+import {setLoadingUser} from "../../store/actions/userActions";
 
 
 interface AddPostProps {
-
+    isEditMode: boolean;
 }
 
 
 const steps = ['Add image', 'Create post'];
 
-
+// TODO edytor zdjęc dodać
 export const AddPost: React.FC<AddPostProps> = ({isEditMode}) => {
     const { user } = useSelector((state: RootState) => state.auth);
     const { userLoading } = useSelector((state: RootState) => state.userReducer);
@@ -41,16 +45,11 @@ export const AddPost: React.FC<AddPostProps> = ({isEditMode}) => {
     const {state} = useLocation();
 
     useEffect(() => {
-
-    }, [file]);
+    }, [file, post]);
 
     const handleOpen = () => {
-        //Okienko do otwierania edytora
         setIsOpen(true);
     }
-
-
-
 
 
     const stepsElements = [

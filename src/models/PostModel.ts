@@ -5,10 +5,9 @@ export interface PostModel{
     id: number;
     description: string;
     img_url: string;
-    min_img_url: string;
     tags: string;
     author_id: number;
-    created_at: Date;
+    created_at: number;
     updated_at: Date;
     author: User;
     likes_count: number;
@@ -19,6 +18,9 @@ export interface PostModel{
 
 export interface PostState {
     posts: null | PostModel[],
+    postLoading: boolean
+    currentPage: number,
+    hasNextPage: boolean
 }
 
 export interface AddPostModel{

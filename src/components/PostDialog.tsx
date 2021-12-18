@@ -7,13 +7,18 @@ import 'App.scss';
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import {useDispatch, useSelector} from "react-redux";
-import {addComment, deleteComment as postDeleteComment, deletePost, likePost} from "../store/actions/postAction";
-import {deleteComment as userDeleteComment} from "../store/actions/userActions";
+import {
+    addComment,
+    deletePostComment,
+    deletePost,
+    likePost
+} from "../store/actions/postAction";
+import {deleteUserComment} from "../store/actions/userActions";
 import {User} from "../models/UserModel";
 import {Link} from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import {Comment} from "../models/CommentModel";
 import { RootState } from 'store';
+import {Comments} from "./Comments";
 
 interface PostDialogProps {
  post: PostModel;
@@ -22,14 +27,16 @@ interface PostDialogProps {
  isOnWall : boolean;
 }
 
-
+// TODO wyjebać edycję i usuwanie gdy nie jestem autorem
 export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall}) => {
     const [comment, setComment] = useState("");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [show, setShow] = useState(false);
     const [like, setLike] = useState(post.isLiked);
     const [likesCount, setLikesCount] = useState(post.likes_count);
-    const { user } = useSelector((state: RootState) => state.auth);
+    const [loading, setLoading] = useState(false);
+    const authId = useSelector((state: RootState) => state.auth.user?.id);
+
     const action = useDispatch();
     const openMenu = Boolean(anchorEl);
 
@@ -65,18 +72,15 @@ export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall})
         setComment("");
     }
 
-    const handleDeleteComment = (comment: Comment) => {
-        isOnWall ? action(postDeleteComment(post, comment)) : action(userDeleteComment(post, comment));
-    }
     //TODO dodawanie komentarzy
 
-    const { id, author, description, min_img_url, likes_count, img_url } = post;
+    const { id, author, description, likes_count, comments, img_url } = post;
     return (
         <div className="post-dialog">
         <div className="post-dialog__header">
             <div className="post-dialog__author">
-                <Avatar alt={'avatar'} src={'author.avatar'} className="post-dialog__header__author__avatar" />
-                <p  className="post-dialog__author-name">{'author.name'}</p>
+                <Avatar alt={user.name} src={user.avatar_url} className="post-dialog__header__author__avatar" />
+                <p  className="post-dialog__author-name">{user.name}</p>
             </div>
             <IconButton className="post-dialog__menu" onClick={handleClick}>
                 <MoreHorizIcon />
@@ -94,12 +98,10 @@ export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall})
 
             <p className="post-dialog__likes">Likes: {likesCount}</p>
             <div className="post-comments">
-                {comments && comments.map(comment => <div key={comment.id} className="post__comment">
-                    <p>
-                        <Link to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
-                    </p>
-                    {comment.author.id === authId ? <p className="post__comment--delete" onClick={() => handleDeleteComment(comment)}>Delete</p> : <></>}
-                </div>)}
+                {comments && comments.map(comment => (
+                    <Comments key={comment.id} post={post} comment={comment}
+                              deleteComment={isOnWall ? deletePostComment : deleteUserComment}/>)
+                )}
             </div>
             <p className="post-dialog__update-time">15 NOVEMBER</p>
             {show &&

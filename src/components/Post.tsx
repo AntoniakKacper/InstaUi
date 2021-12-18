@@ -4,14 +4,18 @@ import "App.scss";
 import React, {useEffect, useState} from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { IconButton } from "@mui/material";
+import {IconButton} from "@mui/material";
 import {Modal} from "./Modal";
 import {PostModel} from "../models/PostModel";
 import {PostDialog} from "./PostDialog";
 import {useDispatch, useSelector} from "react-redux";
-import {likePost} from "../store/actions/postAction";
-import { Link } from 'react-router-dom';
+import {deletePostComment, likePost} from "../store/actions/postAction";
+import {Link} from 'react-router-dom';
+import {Comment} from "../models/CommentModel";
+import userReducer from "../store/reducers/userReducer";
 import {RootState} from "../store";
+import {Comments} from "./Comments";
+import moment from "moment";
 
 interface PostProps {
   post: PostModel
@@ -24,6 +28,7 @@ export const Post: React.FC<PostProps> = ({
   const { description, isLiked, likes_count, comments, author} = post;
   const [openPost, setOpenPost] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const authId = useSelector((state: RootState) => state.auth.user?.id);
   const open = Boolean(anchorEl);
   useEffect(() => {
 
@@ -47,7 +52,7 @@ export const Post: React.FC<PostProps> = ({
   };
 
   const handleDeleteComment = (comment: Comment) => {
-    action(deleteComment(post, comment));
+    action(deletePostComment(post, comment));
   }
 
   return (
@@ -85,15 +90,15 @@ export const Post: React.FC<PostProps> = ({
 
           <p className="post-likes">Likes: {likes_count}</p>
 
-          <div><Link to={`/profile/${author.id}`} className="post__username">{author.name}</Link>
+          <div className='post__description'><Link to={`/profile/${author.id}`} className="post__username post__username--author">{author.name}</Link>
             {description}</div>
           <div className="post-comments">
-            {comments && comments.map(comment => <p key={comment.id}>
-              <Link to={`/profile/${post.id}`} className="post__username">{comment.author.name}</Link>{comment.content}
-            </p>)}
+            {comments && comments.slice(0,3).map(comment =>
+                <Comments key={comment.id} comment={comment} post={post} deleteComment={deletePostComment}/>
+            )}
           </div>
 
-          <p className="post-creation-date">2 GODZ. TEMU</p>
+          <p className="post-creation-date">{`created at ${moment(post.created_at*1000).format('YYYY/MM/DD')}`}</p>
         </div>
       </div>
       <Modal open={openPost} setOpen={setOpenPost} fullWidth={true} maxWidth="sm" children={<PostDialog post={post} user={post.author} setOpen={setOpenPost} isOnWall={true}/>} />
