@@ -23,6 +23,8 @@ export default (state = initialState, action: PostActionsTypes) => {
                 postLoading: false,
             }
         case LIKE_POST:
+        case ADD_COMMENT:
+        case DELETE_COMMENT:
             return {
                 ...state,
                 posts: state.posts!.map(post => post.id === action.payload.id ? action.payload : post),

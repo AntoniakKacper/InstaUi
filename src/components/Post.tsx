@@ -46,7 +46,10 @@ export const Post: React.FC<PostProps> = ({
     action(likePost(post));
   };
 
-//TODO wyswietlanie komentarzy
+  const handleDeleteComment = (comment: Comment) => {
+    action(deleteComment(post, comment));
+  }
+
   return (
     <div className="post">
       <div className="post__nav">
@@ -93,7 +96,7 @@ export const Post: React.FC<PostProps> = ({
           <p className="post-creation-date">2 GODZ. TEMU</p>
         </div>
       </div>
-      <Modal open={openPost} setOpen={setOpenPost} fullWidth={true} maxWidth="sm" children={<PostDialog post={post} user={post.author}/>} />
+      <Modal open={openPost} setOpen={setOpenPost} fullWidth={true} maxWidth="sm" children={<PostDialog post={post} user={post.author} setOpen={setOpenPost} isOnWall={true}/>} />
     </div>
   );
 };

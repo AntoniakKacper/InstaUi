@@ -1,4 +1,12 @@
-import {DELETE_POST, LIKE_POST, PostActionsTypes, SET_LOADING, SET_POSTS} from "store/types/types";
+import {
+    ADD_COMMENT,
+    DELETE_COMMENT,
+    DELETE_POST,
+    LIKE_POST,
+    PostActionsTypes,
+    SET_LOADING,
+    SET_POSTS
+} from "store/types/types";
 import {RootState} from "store";
 import {ThunkAction} from "redux-thunk";
 import axios from "utils/axiosInstance";
@@ -99,6 +107,53 @@ export const likePost = (post: PostModel): ThunkAction<void, RootState, null, Po
         catch (error: any) {
             console.log(error);
             setLoading(false);
+        }
+    }
+}
+
+export const addComment = (comment: string, post: PostModel, setLoading: React.Dispatch<React.SetStateAction<boolean>>): ThunkAction<void, RootState, null, PostActionsTypes> => {
+    return dispatch => {
+        try{
+            axios.post("./comments", {content: comment, post_id: post.id}, {
+
+            }).then((response) => {
+                console.log(response);
+                const location = response.data.data.location;
+                axios.get(`.${location}`).then((response) => {
+                    post.comments.push(response.data.data);
+                    console.log(response);
+                    dispatch({
+                        type: ADD_COMMENT,
+                        payload: post
+                    })
+                    setLoading(false);
+                }).catch((error) => console.log(error))
+            }).catch((error) => console.log(error));
+        }
+        catch (error: any) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteComment = (post: PostModel, comment: Comment): ThunkAction<void, RootState, null, PostActionsTypes> => {
+    return dispatch => {
+        try{
+            axios.delete(`./comments/${comment.id}`
+            ).then((response) => {
+                console.log(response);
+                const comments = post.comments.filter((com) => com.id !== comment.id);
+                dispatch({
+                    type: DELETE_COMMENT,
+                    payload: {
+                        ...post,
+                        comments
+                    },
+                })
+            }).catch((error) => console.log(error));
+        }
+        catch (error: any) {
+            console.log(error);
         }
     }
 }

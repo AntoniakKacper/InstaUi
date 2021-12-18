@@ -144,7 +144,7 @@ export const Profile: React.FC<ProfileProps> = () => {
        </div>
        <div className="profile-posts">
            {posts && posts.map((post:PostModel) =>
-               <ProfilePost post={post} key={post.id}/>
+               <ProfilePost post={post} key={post.id} />
            )}
        </div>
         <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>

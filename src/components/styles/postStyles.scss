@@ -52,6 +52,25 @@
 
   }
 
+  &__comment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 3px;
+
+    &--delete{
+      color: red;
+      font-size: 12px;
+      font-weight: bold;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+
+
+
+
 }
 
 .post-icon {
@@ -85,7 +104,13 @@
 
 .post-comments {
   margin-top: 10px;
+
+  & > p{
+    padding-top: 3px;
+  }
 }
+
+
 
 .post-creation-date {
   margin-top: 10px;

@@ -13,6 +13,8 @@ export const SET_NAME = "SET_NAME";
 export const SET_POSTS = "SET_POSTS";
 export const DELETE_POST = "DELETE_POST";
 export const LIKE_POST = "LIKE_POST";
+export const ADD_COMMENT = "ADD_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";
 
 export const SET_LOADING = "SET_LOADING";
 
@@ -76,6 +78,16 @@ interface LikePostAction{
     payload: PostModel
 }
 
+interface AddCommentAction{
+    type: typeof ADD_COMMENT,
+    payload: PostModel
+}
+
+interface DeleteCommentAction{
+    type: typeof DELETE_COMMENT,
+    payload: PostModel
+}
+
 
 // ----STATE----
 
@@ -89,4 +101,4 @@ export type AuthActionsTypes = SetUserAction | SignOutAction | SignInSocialActio
 
 export type  UserActionTypes = GetUserByIdAction | FollowUserAction | SetLoadingAction | SetAvatarAction | SetNameAction;
 
-export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction | SetLoadingAction;
+export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction | SetLoadingAction | AddCommentAction | DeleteCommentAction;
