@@ -40,8 +40,6 @@ const TabPanel = (props: TabPanelProps) => {
     );
 }
 export const Search: React.FC<SearchProps> = () => {
-    //TODO okroić wyświetlanego posta i naprawic autora posta
-
     const [value, setValue] = useState(0);
     const [posts, setPosts] = useState<PostModel[] | null>(null);
     const [users, setUsers] = useState<User[] | null>(null);
@@ -123,7 +121,7 @@ export const Search: React.FC<SearchProps> = () => {
                </TabPanel>
                <TabPanel value={value} index={1}>
                    {loading ? <div className="search__loading"><CircularProgress size={40} /></div> : posts && <div className="profile-posts">{posts.map((post) => (
-                       <ProfilePost post={post} key={post.id}/>
+                       <ProfilePost post={post} key={post.id} searchActive={true}/>
                    ))}</div>}
                </TabPanel>
            </Box>

@@ -33,7 +33,7 @@ export const PostForm: React.FC<PostFormProps> = ({setPost, post, file}) => {
             <img src={URL.createObjectURL(file)} alt="XD" className="add-post__image"/>
             <div className="post-form__user-info">
                 <Avatar alt="xd" src={user?.avatar_url} />
-                <p>XD</p>
+                <p>{user!.name}</p>
             </div>
             <div className="post-form__inputs">
 

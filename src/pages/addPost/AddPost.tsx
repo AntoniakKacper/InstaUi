@@ -107,7 +107,7 @@ export const AddPost: React.FC<AddPostProps> = ({isEditMode}) => {
     }
 
     if(userLoading){
-        return <CircularProgress size={40} />
+        return <div className="add-post__loading"><CircularProgress size={40} /></div>
     }
 
     return (

@@ -16,8 +16,9 @@ import {Modal} from "../../components/Modal";
 import {ResetPasswordDialog} from "../../components/ResetPasswordDialog";
 import {EditProfile} from "./EditProfile";
 import {useParams} from "react-router-dom";
-import {followUser, getUserById} from "../../store/actions/userActions";
+import {followUser, getUserById, getUserPosts, setLoadingUser} from "../../store/actions/userActions";
 import FollowListDialog from "./FollowListDialog";
+import {setPosts} from "../../store/actions/postAction";
 
 interface ProfileProps {
 
@@ -25,11 +26,10 @@ interface ProfileProps {
 
 type Path = 'followers' | 'followed';
 
-// TODO paginacja postów usera
 export const Profile: React.FC<ProfileProps> = () => {
     const action = useDispatch();
     const loggedUserId = useSelector((state: RootState) => state.auth.user!.id);
-    const { user, userLoading, posts } = useSelector((state: RootState) => state.userReducer);
+    const { user, userLoading, posts, currentPage, hasNextPage } = useSelector((state: RootState) => state.userReducer);
     const { id } = useParams<string>();
     const [open, setOpen] = useState(false);
     const [openEditProfile, setOpenEditProfile] = useState(false);
@@ -37,8 +37,16 @@ export const Profile: React.FC<ProfileProps> = () => {
     const [path, setPath] = useState<Path>('followers');
 
     useEffect(() => {
+        action(setLoadingUser(true));
         action(getUserById(Number(id)));
+        action(getUserPosts(Number(id), [], 1));
     }, [id]);
+
+    const handleLoadClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        hasNextPage && action(getUserPosts(user!.id, posts!, currentPage+1));
+    }
+
 
     const handleClick = () => {
         action(signOut());
@@ -133,7 +141,7 @@ export const Profile: React.FC<ProfileProps> = () => {
        </div>
        <div className="profile-posts">
            {posts && posts.map((post:PostModel) =>
-               <ProfilePost post={post} key={post.id} />
+               <ProfilePost post={post} key={post.id} searchActive={false}/>
            )}
        </div>
         <Modal open={open} setOpen={setOpen} children={<ResetPasswordDialog />}/>
@@ -142,6 +150,7 @@ export const Profile: React.FC<ProfileProps> = () => {
            <Modal open={followOpen} setOpen={setFollowOpen} scrollType='paper'
                   children={<FollowListDialog id={user.id} path={path} setOpen={setFollowOpen} />}
        />}
+       {hasNextPage && <Button onClick={handleLoadClick}>Load more posts...</Button>}
    </div>
   );
  }

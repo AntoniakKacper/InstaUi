@@ -51,10 +51,6 @@ export const Post: React.FC<PostProps> = ({
     action(likePost(post));
   };
 
-  const handleDeleteComment = (comment: Comment) => {
-    action(deletePostComment(post, comment));
-  }
-
   return (
     <div className="post">
       <div className="post__nav">

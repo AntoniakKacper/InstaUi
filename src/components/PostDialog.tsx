@@ -13,12 +13,13 @@ import {
     deletePost,
     likePost
 } from "../store/actions/postAction";
-import {deleteUserComment} from "../store/actions/userActions";
+import {addUserComment, deleteUserComment, likeUserPost} from "../store/actions/userActions";
 import {User} from "../models/UserModel";
 import {Link} from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { RootState } from 'store';
 import {Comments} from "./Comments";
+import moment from "moment";
 
 interface PostDialogProps {
  post: PostModel;
@@ -27,7 +28,6 @@ interface PostDialogProps {
  isOnWall : boolean;
 }
 
-// TODO wyjebać edycję i usuwanie gdy nie jestem autorem
 export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall}) => {
     const [comment, setComment] = useState("");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,7 +43,7 @@ export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall})
     const toggleLike = () => {
         setLike(!like);
         like ? setLikesCount(likesCount - 1) : setLikesCount(likesCount + 1);
-        action(likePost(post));
+        isOnWall ? action(likePost(post)) : action(likeUserPost(post));
     }
 
     const toggle = () => {
@@ -68,11 +68,9 @@ export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall})
 
     const handleAddComment = () => {
         setLoading(true);
-        action(addComment(comment, post, setLoading));
+        isOnWall ? action(addComment(comment, post, setLoading)) : action(addUserComment(comment, post, setLoading));
         setComment("");
     }
-
-    //TODO dodawanie komentarzy
 
     const { id, author, description, likes_count, comments, img_url } = post;
     return (
@@ -82,9 +80,9 @@ export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall})
                 <Avatar alt={user.name} src={user.avatar_url} className="post-dialog__header__author__avatar" />
                 <p  className="post-dialog__author-name">{user.name}</p>
             </div>
-            <IconButton className="post-dialog__menu" onClick={handleClick}>
+            {authId === post.author_id ? <IconButton className="post-dialog__menu" onClick={handleClick}>
                 <MoreHorizIcon />
-            </IconButton>
+            </IconButton> : <></>}
 
         </div>
 
@@ -97,13 +95,15 @@ export const PostDialog: FC<PostDialogProps> = ({post, setOpen, user, isOnWall})
             </div>
 
             <p className="post-dialog__likes">Likes: {likesCount}</p>
+            <div className='post__description'><Link to={`/profile/${author.id}`} className="post__username post__username--author">{author.name}</Link>
+                {description}</div>
             <div className="post-comments">
                 {comments && comments.map(comment => (
                     <Comments key={comment.id} post={post} comment={comment}
                               deleteComment={isOnWall ? deletePostComment : deleteUserComment}/>)
                 )}
             </div>
-            <p className="post-dialog__update-time">15 NOVEMBER</p>
+            <p className="post-dialog__update-time">{`created at ${moment(post.created_at*1000).format('YYYY/MM/DD')}`}</p>
             {show &&
             <article className="post-dialog__comment-container">
                 <input className="post-dialog__input" placeholder="Add comment..." onChange={handleChange} value={comment!}/>

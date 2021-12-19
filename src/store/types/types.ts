@@ -6,6 +6,9 @@ export const SIGN_OUT = "SIGN_OUT";
 export const SIGN_IN_SOCIAL = "SIGN_IN_SOCIAL";
 
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
+export const GET_USER_POSTS = "GET_USER_POSTS";
+export const LIKE_USER_POST = "LIKE_USER_POST";
+export const ADD_USER_COMMENT = "ADD_USER_POST";
 export const FOLLOW_USER = "FOLLOW_USER";
 export const SET_AVATAR = "SET_AVATAR";
 export const SET_NAME = "SET_NAME";
@@ -45,7 +48,16 @@ interface GetUserByIdAction{
     payload: User
 }
 
-interface FollowUserAction {
+interface GetUserPosts{
+    type: typeof GET_USER_POSTS,
+    payload: {
+        posts: PostModel[],
+        currentPage: number,
+        hasNextPage: boolean,
+    }
+}
+
+interface FollowUserAction{
     type: typeof FOLLOW_USER,
     payload: User
 }
@@ -58,6 +70,16 @@ interface SetAvatarAction {
 interface SetNameAction {
     type: typeof SET_NAME,
     payload: string;
+}
+
+interface LikeUserPostAction{
+    type: typeof  LIKE_USER_POST,
+    payload: PostModel
+}
+
+interface AddUserComment{
+    type: typeof ADD_USER_COMMENT,
+    payload: PostModel
 }
 
 
@@ -107,8 +129,11 @@ interface SetLoadingAction {
 }
 
 
-export type AuthActionsTypes = SetUserAction | SignOutAction | SignInSocialAction | SetLoadingAction | SetAvatarAction | SetNameAction;
+export type AuthActionsTypes = SetUserAction | SignOutAction | SignInSocialAction | SetLoadingAction | SetAvatarAction
+    | SetNameAction;
 
-export type  UserActionTypes = GetUserByIdAction | FollowUserAction | SetLoadingAction | SetAvatarAction | SetNameAction | DeleteUserCommentAction;
+export type  UserActionTypes = GetUserByIdAction | FollowUserAction | SetLoadingAction | SetAvatarAction
+    | SetNameAction | DeleteUserCommentAction | GetUserPosts | LikeUserPostAction | AddUserComment;
 
-export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction | SetLoadingAction | AddCommentAction | DeletePostCommentAction;
+export type PostActionsTypes = SetPostsAction | DeletePostAction | LikePostAction | SetLoadingAction | AddCommentAction
+    | DeletePostCommentAction;

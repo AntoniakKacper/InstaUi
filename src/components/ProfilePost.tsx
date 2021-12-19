@@ -4,12 +4,14 @@ import {PostDialog} from "./PostDialog";
 import {Modal} from "./Modal";
 import { useSelector } from 'react-redux';
 import {RootState} from "../store";
+import {SimplePostDialog} from "./SimplePostDialog";
 
 interface ProfilePostProps {
     post: PostModel
+    searchActive: boolean;
 }
 
-const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
+const ProfilePost: React.FC<ProfilePostProps> = ({ post , searchActive}) => {
     const [open, setOpen] = useState(false);
     const { user } = useSelector((state: RootState) => state.userReducer);
 
@@ -35,7 +37,7 @@ const ProfilePost: React.FC<ProfilePostProps> = ({ post }) => {
                 </div>
             </div>
         </div>
-            <Modal children={<PostDialog post={post} user={user!} isOnWall={false}/>} open={open} setOpen={setOpen} fullWidth={true} maxWidth="sm"/>
+            <Modal children={searchActive ? <SimplePostDialog post={post}/> : <PostDialog post={post} user={user!} isOnWall={false}/>} open={open} setOpen={setOpen} fullWidth={true} maxWidth="sm"/>
         </div>
     );
 };

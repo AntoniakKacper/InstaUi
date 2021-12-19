@@ -17,4 +17,6 @@ export interface UserState{
     user: null | User;
     userLoading: boolean;
     posts: null | PostModel[];
+    currentPage: number,
+    hasNextPage: boolean,
 }

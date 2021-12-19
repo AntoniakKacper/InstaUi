@@ -6,16 +6,18 @@ import {
     GET_USER_BY_ID,
     PostActionsTypes,
     SET_LOADING,
-    UserActionTypes
+    GET_USER_POSTS,
+    UserActionTypes, LIKE_USER_POST,  ADD_USER_COMMENT
 } from "../types/types";
 import axios from "utils/axiosInstance";
 import {User} from "../../models/UserModel";
 import {PostModel} from "../../models/PostModel";
 import {Comment} from "../../models/CommentModel";
 
+
+
 export const getUserById = (id: number): ThunkAction<void, RootState, null, UserActionTypes> => {
     return dispatch => {
-        dispatch(setLoadingUser(true));
         try{
             axios.get(`./users/${id}`, {
                 headers: {
@@ -26,6 +28,36 @@ export const getUserById = (id: number): ThunkAction<void, RootState, null, User
                 dispatch({
                     type: GET_USER_BY_ID,
                     payload: user as User
+                })
+            }).catch((error) => console.log(error))
+        }
+        catch (error: any) {
+            console.log(error);
+        }
+    }
+}
+
+export const getUserPosts = (id: number, passedPosts: PostModel[], page: number): ThunkAction<void, RootState, null, UserActionTypes> => {
+    return dispatch => {
+        try{
+            axios.get(`./users/${id}/posts`, {
+                params:{
+                    page
+                },
+                headers: {
+                    Accept: "application/json",
+                },
+            }).then((res) => {
+                const posts = [...passedPosts, ...res.data.data.data];
+                const hasNextPage = Boolean(res.data.data.next_page_url);
+                const currentPage = res.data.data.current_page;
+                dispatch({
+                    type: GET_USER_POSTS,
+                    payload: {
+                        posts,
+                        currentPage,
+                        hasNextPage
+                    }
                 })
             }).catch((error) => console.log(error))
         }
@@ -67,6 +99,53 @@ export const deleteUserComment = (post: PostModel, comment: Comment): ThunkActio
                     },
                 })
             }).catch((error) => console.log(error));
+        }
+        catch (error: any) {
+            console.log(error);
+        }
+    }
+}
+
+export const addUserComment = (comment: string, post: PostModel, setLoading: React.Dispatch<React.SetStateAction<boolean>>): ThunkAction<void, RootState, null, UserActionTypes> => {
+    return dispatch => {
+        try{
+            axios.post("./comments", {content: comment, post_id: post.id}, {
+
+            }).then((response) => {
+                console.log(response);
+                const location = response.data.data.location;
+                axios.get(`.${location}`).then((response) => {
+                    post.comments.push(response.data.data);
+                    console.log(response);
+                    dispatch({
+                        type: ADD_USER_COMMENT,
+                        payload: post
+                    })
+                    setLoading(false);
+                }).catch((error) => console.log(error))
+            }).catch((error) => console.log(error));
+        }
+        catch (error: any) {
+            console.log(error);
+        }
+    }
+}
+
+export const likeUserPost = (post: PostModel): ThunkAction<void, RootState, null, UserActionTypes> => {
+    return dispatch => {
+        try{
+            axios.head(`/posts/${post.id}/like`, {
+                headers: {
+                    Accept: "application/json",
+                },
+            }).then(()  => {
+                post.likes_count += post.isLiked ? -1 : 1;
+                post.isLiked = !post.isLiked;
+                dispatch({
+                    type: LIKE_USER_POST,
+                    payload: post
+                })
+            }).catch((error) => console.log(error))
         }
         catch (error: any) {
             console.log(error);
