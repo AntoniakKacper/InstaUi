@@ -1,10 +1,9 @@
 import {
     ADD_COMMENT,
-    DELETE_POST,
     DELETE_POST_COMMENT,
     LIKE_POST,
     PostActionsTypes,
-    SET_LOADING,
+    SET_LOADING_POST,
     SET_POSTS
 } from "store/types/types";
 import {RootState} from "store";
@@ -24,6 +23,7 @@ export const setPosts = (page: number, passedPosts: PostModel[]): ThunkAction<vo
                   Accept: "application/json",
                 },
               }).then((res)  => {
+            //TODO sprawdzic czy nie ma bledu z passedPosts
                   const posts = [...passedPosts, ...res.data.data.data];
                   const hasNextPage = Boolean(res.data.data.next_page_url);
                   const currentPage = res.data.data.current_page;
@@ -40,30 +40,6 @@ export const setPosts = (page: number, passedPosts: PostModel[]): ThunkAction<vo
                       }
                   })
               }).catch((error) => console.log(error));
-        }
-        catch (error: any) {
-            console.log(error);
-        }
-        finally {
-            setLoadingPost(false);
-        }
-    }
-}
-
-export const deletePost = (id: number): ThunkAction<void, RootState, null, PostActionsTypes> => {
-    return dispatch => {
-        dispatch(setLoadingPost(true));
-        try{
-            axios.delete(`/posts/${id}`, {
-                headers: {
-                    Accept: "application/json",
-                },
-            }).then(()  => {
-                dispatch({
-                    type: DELETE_POST,
-                    payload: id
-                })
-            }).catch(error => console.log(error))
         }
         catch (error: any) {
             console.log(error);
@@ -149,7 +125,7 @@ export const setLoadingPost = (loadingValue: boolean): ThunkAction<void, RootSta
     return dispatch => {
         try{
             dispatch({
-                type: SET_LOADING,
+                type: SET_LOADING_POST,
                 payload: loadingValue
             });
         }

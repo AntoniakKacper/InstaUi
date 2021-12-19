@@ -4,10 +4,8 @@ import {
     DELETE_USER_COMMENT,
     FOLLOW_USER,
     GET_USER_BY_ID,
-    PostActionsTypes,
-    SET_LOADING,
     GET_USER_POSTS,
-    UserActionTypes, LIKE_USER_POST,  ADD_USER_COMMENT
+    UserActionTypes, LIKE_USER_POST, ADD_USER_COMMENT, DELETE_POST, SET_LOADING_USER
 } from "../types/types";
 import axios from "utils/axiosInstance";
 import {User} from "../../models/UserModel";
@@ -48,6 +46,7 @@ export const getUserPosts = (id: number, passedPosts: PostModel[], page: number)
                     Accept: "application/json",
                 },
             }).then((res) => {
+                //TODO sprawdzic czy nie ma bledu
                 const posts = [...passedPosts, ...res.data.data.data];
                 const hasNextPage = Boolean(res.data.data.next_page_url);
                 const currentPage = res.data.data.current_page;
@@ -80,6 +79,31 @@ export const followUser = (user: User): ThunkAction<void, RootState, null, UserA
             }).catch((error) => console.log(error))
         } catch (error: any) {
             console.log(error);
+        }
+    }
+}
+
+
+export const deletePost = (id: number): ThunkAction<void, RootState, null, UserActionTypes> => {
+    return dispatch => {
+        dispatch(setLoadingUser(true));
+        try{
+            axios.delete(`/posts/${id}`, {
+                headers: {
+                    Accept: "application/json",
+                },
+            }).then(()  => {
+                dispatch({
+                    type: DELETE_POST,
+                    payload: id
+                })
+            }).catch(error => console.log(error))
+        }
+        catch (error: any) {
+            console.log(error);
+        }
+        finally {
+            setLoadingUser(false);
         }
     }
 }
@@ -157,7 +181,7 @@ export const setLoadingUser = (loadingValue: boolean): ThunkAction<void, RootSta
     return dispatch => {
         try{
             dispatch({
-                type: SET_LOADING,
+                type: SET_LOADING_USER,
                 payload: loadingValue
             });
         }

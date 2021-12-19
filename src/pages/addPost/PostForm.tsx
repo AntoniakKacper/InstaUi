@@ -29,8 +29,7 @@ export const PostForm: React.FC<PostFormProps> = ({setPost, post, file}) => {
 
     return (
         <main className='post-form'>
-
-            <img src={URL.createObjectURL(file)} alt="XD" className="add-post__image"/>
+            <img src={URL.createObjectURL(file)} alt="editImage" className="add-post__image"/>
             <div className="post-form__user-info">
                 <Avatar alt="xd" src={user?.avatar_url} />
                 <p>{user!.name}</p>
@@ -49,7 +48,6 @@ export const PostForm: React.FC<PostFormProps> = ({setPost, post, file}) => {
                 />
                 <TextField
                     fullWidth
-
                     label="Tags"
                     placeholder="#Tag #Tag #Tag"
                     value={post?.tags}

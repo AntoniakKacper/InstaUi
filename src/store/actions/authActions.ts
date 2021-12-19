@@ -2,7 +2,7 @@ import axios from "utils/axiosInstance";
 import {passwordResetData, signInData, signUpData} from "models/Authentication";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "store";
-import {AuthActionsTypes, SET_AVATAR, SET_LOADING, SET_NAME, SIGN_OUT, SIGN_UP} from "store/types/types";
+import {AuthActionsTypes, RESET_AUTH, SET_AVATAR, SET_LOADING, SET_NAME, SIGN_OUT, SIGN_UP} from "store/types/types";
 //import {passwordChange} from
 
 
@@ -176,18 +176,34 @@ export const changeUsername = (name: string): ThunkAction<void, RootState, null,
     }
 }
 
+
+
+
+
 export const setLoadingAuth = (loadingValue: boolean): ThunkAction<void, RootState, null, AuthActionsTypes> => {
     return dispatch => {
-        try{
+        try {
             dispatch({
                 type: SET_LOADING,
                 payload: loadingValue
             });
-        }
-        catch (error: any) {
+        } catch (error: any) {
             console.log(error);
         }
     }
 }
+
+export const resetAuth = (): ThunkAction<void, RootState, null, AuthActionsTypes> => {
+        return dispatch => {
+            try {
+                dispatch({
+                    type: RESET_AUTH,
+                });
+            } catch (error: any) {
+                console.log(error);
+            }
+        }
+    }
+
 
 

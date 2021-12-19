@@ -1,12 +1,13 @@
 import {UserState} from "models/UserModel";
 import {
+    DELETE_POST,
     DELETE_USER_COMMENT,
     FOLLOW_USER,
     GET_USER_BY_ID,
     GET_USER_POSTS,
     LIKE_USER_POST,
     SET_AVATAR,
-    SET_LOADING,
+    SET_LOADING_USER,
     UserActionTypes
 } from "../types/types";
 
@@ -21,10 +22,10 @@ const initialState: UserState = {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action: UserActionTypes) => {
     switch (action.type) {
-        case SET_LOADING:
+        case SET_LOADING_USER:
             return{
                 ...state,
-                userLoading: true
+                userLoading: action.payload
             }
         case GET_USER_BY_ID:
             return {
@@ -55,13 +56,18 @@ export default (state = initialState, action: UserActionTypes) => {
                 },
                 userLoading: false,
             }
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts!.filter(post => post.id !== action.payload),
+                userLoading: false
+            }
         case LIKE_USER_POST:
         case DELETE_USER_COMMENT:
             return {
                 ...state,
                 posts: state.posts!.map(post => post.id === action.payload.id ? action.payload : post),
             }
-            //TODO like z profilu generuje map na null - ale działa
         default:
             return state;
     }

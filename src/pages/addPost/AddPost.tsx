@@ -21,14 +21,11 @@ import {setLoadingUser} from "../../store/actions/userActions";
 
 
 interface AddPostProps {
-    isEditMode: boolean;
 }
-
 
 const steps = ['Add image', 'Create post'];
 
-// TODO edytor zdjęc dodać
-export const AddPost: React.FC<AddPostProps> = ({isEditMode}) => {
+export const AddPost: React.FC<AddPostProps> = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const { userLoading } = useSelector((state: RootState) => state.userReducer);
 
@@ -42,7 +39,6 @@ export const AddPost: React.FC<AddPostProps> = ({isEditMode}) => {
     });
     const action = useDispatch();
     const navigate = useNavigate();
-    const {state} = useLocation();
 
     useEffect(() => {
     }, [file, post]);

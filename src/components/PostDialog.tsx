@@ -10,10 +10,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addComment,
     deletePostComment,
-    deletePost,
     likePost
 } from "../store/actions/postAction";
-import {addUserComment, deleteUserComment, likeUserPost} from "../store/actions/userActions";
+import {addUserComment, deleteUserComment, likeUserPost, deletePost} from "../store/actions/userActions";
 import {User} from "../models/UserModel";
 import {Link} from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";

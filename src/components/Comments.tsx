@@ -14,7 +14,6 @@ interface CommentsProps {
 }
 
 export const Comments: React.FC<CommentsProps> = ({comment, post, deleteComment}) => {
-    //TODO zagniezdzone komentarze
     const authId = useSelector((state: RootState) => state.auth.user?.id);
     const action = useDispatch();
 

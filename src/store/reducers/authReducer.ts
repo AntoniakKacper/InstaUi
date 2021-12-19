@@ -1,6 +1,7 @@
 import {AuthState} from "models/Authentication";
 import {
     AuthActionsTypes,
+    RESET_AUTH,
     SET_AVATAR,
     SET_LOADING,
     SET_NAME,
@@ -10,7 +11,7 @@ import {
 } from "store/types/types";
 
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
     user: null,
     authenticated: false,
     token: '',
@@ -33,6 +34,7 @@ export default (state = initialState, action: AuthActionsTypes) => {
                 authenticated: true,
                 authLoading: false,
             }
+        case RESET_AUTH:
         case SIGN_OUT:
             return {
                 ...state,

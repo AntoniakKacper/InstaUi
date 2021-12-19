@@ -13,11 +13,12 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import { Profile } from "../pages/profile/Profile";
 import { Search } from "pages/search/search";
 import {AddPost} from "../pages/addPost/AddPost";
+import {EditPost} from "../pages/editPost/editPost";
 
 interface RoutesProps {}
 
 export const RoutesConfig: React.FC<RoutesProps> = () => {
-  const { user, authenticated } = useSelector((state: RootState) => state.auth);
+  const { authenticated } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {}, []);
   return (
@@ -77,7 +78,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
                 path="/addPost"
                 element={
                     <ProtectedRoute>
-                        <AddPost isEditMode={false}/>
+                        <AddPost />
                     </ProtectedRoute>
                 }
             />
@@ -85,7 +86,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
                 path="/editPost"
                 element={
                     <ProtectedRoute>
-                        <AddPost isEditMode={true}/>
+                        <EditPost/>
                     </ProtectedRoute>
                 }
             />

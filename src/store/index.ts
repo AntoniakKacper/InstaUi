@@ -8,7 +8,7 @@ import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/es/persistReducer';
 import userReducer from "./reducers/userReducer";
 
-const persistConfig = {
+export const persistConfig = {
     key: 'root',
     storage,
     whitelist: ['auth']
