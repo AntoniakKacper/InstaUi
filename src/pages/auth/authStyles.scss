@@ -5,6 +5,8 @@
   align-items: center;
   min-height: 400px;
   padding-top: 50px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .auth__header {
@@ -75,13 +77,16 @@
   justify-content: space-around;
   flex-direction: column;
   max-width: 400px;
+  padding: 20px;
 
   &-sign-in {
     min-height: 250px;
+    width: 100%;
   }
 
   &-sign-up {
     min-height: 400px;
+    width: 100%;
   }
 }
 

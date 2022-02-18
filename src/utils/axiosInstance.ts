@@ -2,7 +2,7 @@ import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {store} from '../store';
 import {RESET_AUTH} from "../store/types/types"
 
-const baseURL = 'http://127.0.0.1:8000/api';
+const baseURL = process.env.REACT_APP_API_URL;
 
 const axiosCustom = axios.create({
     baseURL: baseURL

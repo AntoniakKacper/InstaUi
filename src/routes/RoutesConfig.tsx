@@ -4,7 +4,7 @@ import { SignIn } from "pages/auth/SignIn";
 import { SignUp } from "pages/auth/SignUp";
 import { Home } from "pages/home/Home";
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
 import { RootState } from "store";
@@ -22,7 +22,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
 
   useEffect(() => {}, []);
   return (
-    <Router>
+    <HashRouter>
       <Navbar />
       <div className="content-wrapper">
         <Routes>
@@ -95,6 +95,6 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
         </Routes>
       </div>
         {authenticated && <BottomNavbar />}
-    </Router>
+    </HashRouter>
   );
 };
