@@ -28,12 +28,10 @@ export const SignIn: React.FC<SignInProps> = () => {
   };
 
   const responseGoogle = (response: any) => {
-    console.log(response);
     action(signInSocial(response.accessToken, "google"));
   }
 
   const onSuccess = (response: any) => {
-    console.log(response);
     action(signInSocial(response.code, "github"));
   }
 
@@ -63,11 +61,11 @@ export const SignIn: React.FC<SignInProps> = () => {
 
           cookiePolicy={'single_host_origin'}
         />
-        <LoginGithub clientId={process.env.REACT_APP_GITHUB_CLIENT_ID}
-                     className="social-auth-container-button social-auth-container-button-github"
-                     onSuccess={onSuccess}
-                     buttonText={<i className="fab fa-github social-auth-container-button-icon"/>}
-                     onFailure={onFailure}/>
+        {/*<LoginGithub clientId={process.env.REACT_APP_GITHUB_CLIENT_ID}*/}
+        {/*             className="social-auth-container-button social-auth-container-button-github"*/}
+        {/*             onSuccess={onSuccess}*/}
+        {/*             buttonText={<i className="fab fa-github social-auth-container-button-icon"/>}*/}
+        {/*             onFailure={onFailure}/>*/}
       </div>
       <FormProvider {...methods}>
         <form
