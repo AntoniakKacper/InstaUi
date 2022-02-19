@@ -18,7 +18,7 @@ import LoginGithub from 'react-login-github';
 interface SignInProps {}
 
 export const SignIn: React.FC<SignInProps> = () => {
-    const {authLoading} = useSelector((state:RootState) => state.auth);
+  const {authLoading} = useSelector((state:RootState) => state.auth);
   const action = useDispatch();
   const methods = useForm<signInData>({
     resolver: yupResolver(signInSchema),
@@ -28,10 +28,12 @@ export const SignIn: React.FC<SignInProps> = () => {
   };
 
   const responseGoogle = (response: any) => {
+    console.log(response);
     action(signInSocial(response.accessToken, "google"));
   }
 
-  const onSuccess = async (response: any) => {
+  const onSuccess = (response: any) => {
+    console.log(response);
     action(signInSocial(response.code, "github"));
   }
 
@@ -45,25 +47,24 @@ export const SignIn: React.FC<SignInProps> = () => {
       </div>
       <div className="social-auth-container">
         <GoogleLogin
-            className="social-auth-container-button"
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            buttonText="Google"
-            tag='button'
-            render={renderProps => (
-                <button className="social-auth-container-button social-auth-container-button-google"
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}>
-                  <i className="fab fa-google  social-auth-container-button-icon" /></button>
-            )}
-            icon={false}
+          className="social-auth-container-button"
+          clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          buttonText="Google"
+          tag='button'
+          render={renderProps => (
+            <button className="social-auth-container-button social-auth-container-button-google"
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}>
+              <i className="fab fa-google  social-auth-container-button-icon" /></button>
+          )}
+          icon={false}
 
-            cookiePolicy={'single_host_origin'}
+          cookiePolicy={'single_host_origin'}
         />
         <LoginGithub clientId={process.env.REACT_APP_GITHUB_CLIENT_ID}
                      className="social-auth-container-button social-auth-container-button-github"
-                     scope={'user:email'}
                      onSuccess={onSuccess}
                      buttonText={<i className="fab fa-github social-auth-container-button-icon"/>}
                      onFailure={onFailure}/>
@@ -83,7 +84,7 @@ export const SignIn: React.FC<SignInProps> = () => {
           <PasswordInput label="Password" name="password" variant="outlined" />
           {authLoading ? (
             <Button variant="outlined" color="primary" disabled>
-                Loading...
+              Loading...
             </Button>
           ) : (
             <Button type="submit" variant="contained">
@@ -94,9 +95,9 @@ export const SignIn: React.FC<SignInProps> = () => {
 
         </form>
         <div className="auth__footer">
-        <p>Don't have an account? </p>
-        <Link to="/signup">Sign up</Link>
-      </div>
+          <p>Don't have an account? </p>
+          <Link to="/signup">Sign up</Link>
+        </div>
       </FormProvider>
     </div>
   );

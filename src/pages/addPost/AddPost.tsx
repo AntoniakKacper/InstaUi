@@ -1,23 +1,21 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {Dropzone} from "../../components/Dropzone";
+import { Dropzone } from "../../components/Dropzone";
 import StepLabel from '@mui/material/StepLabel';
-import {PostForm} from "./PostForm";
-import {AddPostModel} from 'models/PostModel';
+import { PostForm } from "./PostForm";
+import { AddPostModel } from 'models/PostModel';
 import axios from "../../utils/axiosInstance";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store";
-import {setLoadingPost} from "../../store/actions/postAction";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
 import imageCompression from 'browser-image-compression';
-import {setLoadingAuth} from "../../store/actions/authActions";
 import CircularProgress from "@mui/material/CircularProgress";
-import {setLoadingUser} from "../../store/actions/userActions";
+import { setLoadingUser } from "../../store/actions/userActions";
 
 
 interface AddPostProps {
@@ -39,9 +37,6 @@ export const AddPost: React.FC<AddPostProps> = () => {
     });
     const action = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-    }, [file, post]);
 
     const handleOpen = () => {
         setIsOpen(true);
@@ -72,6 +67,7 @@ export const AddPost: React.FC<AddPostProps> = () => {
     }
 
     const handleAddPost = async () => {
+
         action(setLoadingUser(true));
         const fData = new FormData();
         const options = {

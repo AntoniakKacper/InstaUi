@@ -81,7 +81,7 @@ export const signInSocial = (passedToken: string, social: "google" | "github"): 
     return dispatch => {
         dispatch(setLoadingAuth(true));
         try{
-            axios.get(`./login/${social}/callback?token=${passedToken}`,
+            axios.get(`./login/${social}/callback`,
                 {
                     params: {
                         token: passedToken

@@ -1,4 +1,4 @@
-import React, {useEffect, ChangeEvent} from 'react'
+import React, {useEffect, ChangeEvent, useMemo} from 'react'
 import TextField from '@mui/material/TextField';
 import {AddPostModel} from 'models/PostModel';
 import Avatar from '@mui/material/Avatar';
@@ -21,15 +21,18 @@ export const PostForm: React.FC<PostFormProps> = ({setPost, post, file}) => {
     }
 
     useEffect(() => {
+
         setPost({
             ...post,
             photo: file
         })
     }, [file])
 
+    const imgUrl = useMemo(() => URL.createObjectURL(file), [file]);
+
     return (
         <main className='post-form'>
-            <img src={URL.createObjectURL(file)} alt="editImage" className="add-post__image"/>
+            <img src={imgUrl} alt="editImage" className="add-post__image"/>
             <div className="post-form__user-info">
                 <Avatar alt="xd" src={user?.avatar_url} />
                 <p>{user!.name}</p>
